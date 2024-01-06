@@ -1,0 +1,63 @@
+:host {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-island {
+  width: 500px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    text-align: start;
+
+    h3,
+    h5 {
+      margin: 0;
+    }
+
+    img {
+      width: 48px;
+      margin-right: 14px;
+    }
+  }
+
+  .remember-me-checkbox {
+    text-align: start;
+  }
+
+  .actions {
+    display: flex;
+    margin-top: 24px;
+    justify-content: center;
+  }
+}
+
+.version {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.theme-switcher-container {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+}
+
+.w-25 {
+  max-width: 150px;
+}
+
+.forget-link {
+  float: left;
+}

@@ -1,0 +1,27 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+
+.item_sidebar {
+  width: 100%;
+  height: 90px;
+  box-shadow: var(--tui-shadow-sidebar);
+}
+
+.d-flex {
+  .vertical-menu-btn {
+    .hamburger-icon {
+      padding: 10px;
+      width: 20px;
+      height: 14px;
+      position: relative;
+      cursor: pointer;
+      display: inline-block;
+      span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        border-radius: 5px;
+        background-color: var(--tui-text-01);
+      }
+    }
+  }
+}

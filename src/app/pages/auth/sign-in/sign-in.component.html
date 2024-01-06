@@ -1,0 +1,107 @@
+<div class="container">
+  <tui-island size="m" textAlign="center" class="login-island">
+    <div class="tui-island__content">
+      <div class="header">
+        <img src="/assets/favicon.ico" alt="" srcset="" />
+        <div>
+          <h3 class="tui-island__title">MINT</h3>
+          <h4 class="tui-island__paragraph">Вход в систему</h4>
+        </div>
+      </div>
+      <form
+        class="tui-space_top-4"
+        [formGroup]="formGroup"
+        [tuiTextfieldCleaner]="true"
+      >
+        <tui-root>
+          <div class="tui-form__row tui-form__row_multi-fields">
+            <tui-select
+              tuiTextfieldSize="l"
+              class="tui-form__multi-field w-25"
+              formControlName="type"
+              (ngModelChange)="onTypeChanged($event)"
+              [tuiTextfieldLabelOutside]="true"
+            >
+              <tui-data-list-wrapper
+                *tuiDataList
+                [items]="types"
+              ></tui-data-list-wrapper>
+            </tui-select>
+
+            <tui-input
+              *ngIf="type"
+              formControlName="login"
+              class="tui-form__multi-field"
+            >
+              Логин
+              <input
+                autocomplete="login"
+                tuiTextfield
+                (keyup.enter)="passwordElement.nativeElement.focus()"
+                formControlName="login"
+                type="email"
+              />
+            </tui-input>
+
+            <tui-input-phone-international
+              *ngIf="!type"
+              class="tui-form__multi-field"
+              formControlName="login"
+              [countries]="countries"
+              [tuiTextfieldLabelOutside]="true"
+              [(countryIsoCode)]="countryIsoCode"
+              (countryIsoCodeChange)="onPhoneCountryCodeChange($event)"
+            >
+            </tui-input-phone-international>
+          </div>
+
+          <div class="tui-form__row">
+            <tui-input-password formControlName="password">
+              Пароль
+              <input
+                tuiTextfield
+                autocomplete="current-password"
+                #passwordElement="elementRef"
+                tuiElement
+                (keyup.enter)="submit()"
+              />
+            </tui-input-password>
+            <tui-error [error]="error"></tui-error>
+          </div>
+
+          <div class="forget-link">
+            <a routerLink="/forget-password">
+              Забыли пароль?
+            </a>
+          </div>
+
+          <div class="actions">
+            <button
+              tuiButton
+              icon="tuiIconLogIn"
+              [showLoader]="isAuthInProcess"
+              [disabled]="formGroup.invalid"
+              (click)="submit()"
+            >
+              Войти
+            </button>
+          </div>
+        </tui-root>
+      </form>
+    </div>
+  </tui-island>
+</div>
+
+<!--<app-version class="version"></app-version>-->
+
+<div class="theme-switcher-container">
+  <button
+    (click)="switchTheme()"
+    [icon]="themeValue() ? 'tuiIconSun' : 'tuiIconMoon'"
+    appearance="flat"
+    shape="rounded"
+    size="m"
+    tuiIconButton
+    type="button"
+  ></button>
+</div>
