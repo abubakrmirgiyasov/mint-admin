@@ -14,11 +14,11 @@ import {
 } from "@taiga-ui/core";
 import {TuiLetModule} from "@taiga-ui/cdk";
 import {TuiProgressModule} from "@taiga-ui/kit";
-import {TopBarModule} from "@components/top-bar/top-bar.module";
-import {SidebarComponent} from "@components/sidebar/sidebar.component";
+import {TopBarModule} from "@components/layout/top-bar/top-bar.module";
+import {SidebarComponent} from "@components/layout/sidebar/sidebar.component";
 import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
-import {AuthModule} from "@pages/auth/sign-in/auth.module";
+import {SignInModule} from "@pages/auth/sign-in/sign-in.module";
 
 @NgModule({
   imports: [
@@ -30,7 +30,6 @@ import {AuthModule} from "@pages/auth/sign-in/auth.module";
 
     // Taiga UI
     TuiRootModule,
-    TuiRootModule,
     TuiDialogModule,
     TuiAlertModule,
     TuiThemeNightModule,
@@ -39,7 +38,7 @@ import {AuthModule} from "@pages/auth/sign-in/auth.module";
     TuiProgressModule,
     TuiLoaderModule,
 
-    AuthModule,
+    SignInModule,
     TopBarModule
   ],
   declarations: [

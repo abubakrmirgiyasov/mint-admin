@@ -1,0 +1,27 @@
+$variable-prefix: mi-;
+$prefix: $variable-prefix;
+
+// Color System
+$primary: var(--#{$prefix}primary);
+$secondary: var(--#{$prefix}secondary);
+$success: var(--#{$prefix}success);
+$info: var(--#{$prefix}info);
+$warning: var(--#{$prefix}warning);
+$danger: var(--#{$prefix}danger);
+$light: var(--#{$prefix}light);
+$dark: var(--#{$prefix}dark);
+$white: var(--#{$prefix}white);
+$black: var(--#{$prefix}black);
+
+// top bar
+$top-bar-user-bg: var(--#{$prefix}top-bar-user-bg);
+
+// sidebar
+$vertical-menu-bg: var(--#{$prefix}vertical-menu-bg);
+$vertical-menu-width: var(--#{$prefix}vertical-menu-width); // 250px
+$vertical-menu-width-sm: var(--#{$prefix}vertical-menu-width-sm); // 70px
+
+// button
+$btn-color: var(--#{$prefix}-btn-color);
+
+$min-contrast-ratio: 1.75;

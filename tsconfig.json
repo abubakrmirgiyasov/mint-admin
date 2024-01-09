@@ -24,6 +24,10 @@
       "dom"
     ],
     "paths": {
+      "@shared/*": [
+        "src/app/shared/*",
+        "src/app/shared"
+      ],
       "@core/*": [
         "src/app/core/*",
         "src/app/core"

@@ -1,5 +1,15 @@
-<!-- HEADER -->
-<app-top-bar></app-top-bar>
+<div class="layout-wrapper">
+  <!-- HEADER -->
+  <app-top-bar (mobileMenuButtonClick)="onToggleMobileMenu()"></app-top-bar>
 
-<!-- SIDEBAR -->
-<app-sidebar></app-sidebar>
+  <!-- SIDEBAR -->
+  <app-sidebar></app-sidebar>
+
+  <main class="main-content">
+    <div class="page-content">
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </main>
+</div>

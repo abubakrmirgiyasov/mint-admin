@@ -1,12 +1,12 @@
 import {NgModule} from "@angular/core";
 import {IdentityRoutingModule} from "./identity-routing.module";
-import {AuthModule} from "./sign-in/auth.module";
+import {SignInModule} from "./sign-in/sign-in.module";
 
 @NgModule({
   declarations: [],
   imports: [
     IdentityRoutingModule,
-    AuthModule
+    SignInModule
   ]
 })
 export class IdentityModule { }

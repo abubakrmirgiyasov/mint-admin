@@ -1,0 +1,21 @@
+.main-content {
+  transition: all 0.1s ease-out;
+}
+
+.page-content {
+  padding: calc(70px + 1.5rem) calc(1.5rem * 0.5) 60px calc(1.5rem * 0.5);
+}
+
+.container-fluid {
+  width: 100%;
+  padding-right: calc(1.5rem * 0.5);
+  padding-left: calc(1.5rem * 0.5);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .main-content {
+    margin-left: 250px;
+  }
+}

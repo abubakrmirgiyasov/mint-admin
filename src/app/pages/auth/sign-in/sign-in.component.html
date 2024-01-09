@@ -14,6 +14,13 @@
         [tuiTextfieldCleaner]="true"
       >
         <tui-root>
+          <tui-notification
+            *ngIf="!!error"
+            status="error"
+            class="tui-space_vertical-4"
+          >
+            {{ error }}
+          </tui-notification>
           <div class="tui-form__row tui-form__row_multi-fields">
             <tui-select
               tuiTextfieldSize="l"
@@ -66,7 +73,6 @@
                 (keyup.enter)="submit()"
               />
             </tui-input-password>
-            <tui-error [error]="error"></tui-error>
           </div>
 
           <div class="forget-link">

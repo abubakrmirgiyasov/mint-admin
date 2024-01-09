@@ -1,0 +1,23 @@
+:root {
+  // Color System
+  --#{$prefix}primary: #405189;
+  --#{$prefix}secondary: #3577f1;
+  --#{$prefix}success: #0ab39c;
+  --#{$prefix}warning: #f7b84b;
+  --#{$prefix}danger: #f06548;
+  --#{$prefix}light: #f3f6f9;
+  --#{$prefix}dark: #212529;
+  --#{$prefix}white: #fff;
+  --#{$prefix}black: #000;
+
+  // vertical menu
+  --#{$prefix}vertical-menu-bg: var(--#{$prefix}primary);
+  --#{$prefix}vertical-menu-width: 250px;
+  --#{$prefix}vertical-menu-width-sm: 70px;
+
+  // top bar
+  --#{$prefix}top-bar-user-bg: var(--#{$prefix}light);
+
+  // button
+  --#{$prefix}btn-color: var(--#{$prefix}dark)
+}

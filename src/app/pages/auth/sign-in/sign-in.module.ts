@@ -1,5 +1,5 @@
 import {NgModule} from "@angular/core";
-import {AuthComponent} from "./auth.component";
+import {SignInComponent} from "./sign-in.component";
 import {
   TuiCheckboxLabeledModule,
   TuiComboBoxModule,
@@ -13,19 +13,19 @@ import {TuiAutoFocusModule, TuiElementModule, TuiLetModule} from "@taiga-ui/cdk"
 import {
   TuiButtonModule,
   TuiDataListModule,
-  TuiErrorModule,
-  TuiRootModule,
+  TuiErrorModule, TuiNotificationModule,
   TuiTextfieldControllerModule
 } from "@taiga-ui/core";
-import {SharedModule} from "../../../shared/shared.module";
+import {SharedModule} from "@shared/shared.module";
 import {RouterLink} from "@angular/router";
-import {AuthService} from "@pages/auth/sign-in/auth.service";
+import {SignInService} from "@pages/auth/sign-in/sign-in.service";
 
 @NgModule({
-  declarations: [AuthComponent],
+  declarations: [SignInComponent],
   imports: [
     SharedModule,
 
+    RouterLink,
     TuiInputModule,
     TuiAutoFocusModule,
     TuiComboBoxModule,
@@ -41,10 +41,10 @@ import {AuthService} from "@pages/auth/sign-in/auth.service";
     TuiSelectModule,
     TuiTextfieldControllerModule,
     TuiLetModule,
-    RouterLink,
-    TuiRootModule,
-    TuiInputPhoneInternationalModule
+    TuiInputPhoneInternationalModule,
+    TuiNotificationModule
   ],
-  exports: [AuthComponent]
+  providers: [SignInService],
+  exports: [SignInComponent]
 })
-export class AuthModule { }
+export class SignInModule { }
