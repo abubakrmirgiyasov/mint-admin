@@ -1,0 +1,18 @@
+<p>settings works!</p>
+
+<form
+  accept="image/*"
+  enctype="multipart/form-data"
+  (ngSubmit)="submit()"
+  [formGroup]="formGroup">
+  <input type="text" formControlName="bucket" />
+  <input type="file" formControlName="image" (change)="showPreview($event)" />
+  <div *ngIf="imageURL && imageURL !== ''" class="imagePreview">
+    <img [src]="imageURL" [alt]="formGroup.value.file">
+  </div>
+  <button
+    type="submit"
+  >
+    submit
+  </button>
+</form>

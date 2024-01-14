@@ -1,5 +1,6 @@
 @import './assets/styles/config/variables';
 @import './assets/styles/config/theme-light';
+@import './assets/styles/config/mobile';
 
 * {
   margin: 0;
@@ -136,6 +137,11 @@ img, svg {
   .vertical-overlay {
     display: block !important;
   }
+
+  #page-top-bar {
+    left: 0 !important;
+  }
+
   .app-nav {
     margin-left: 0 !important;
     z-index: 1004;
@@ -157,6 +163,10 @@ img, svg {
 
   .navbar-menu {
     width: var(--mi-vertical-menu-width-sm) !important;
+  }
+
+  .main-content {
+    margin-left: var(--mi-vertical-menu-width-sm) !important;
   }
 }
 

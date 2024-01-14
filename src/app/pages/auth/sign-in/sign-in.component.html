@@ -18,13 +18,14 @@
             *ngIf="!!error"
             status="error"
             class="tui-space_vertical-4"
+            (close)="onErrorNotificationClose()"
           >
             {{ error }}
           </tui-notification>
           <div class="tui-form__row tui-form__row_multi-fields">
             <tui-select
               tuiTextfieldSize="l"
-              class="tui-form__multi-field w-25"
+              class="tui-form__multi-field login-type w-25"
               formControlName="type"
               (ngModelChange)="onTypeChanged($event)"
               [tuiTextfieldLabelOutside]="true"

@@ -117,12 +117,18 @@
   align-items: center;
 }
 
+.t-wrapper {
+  padding: 0 var(--tui-padding, 1.25rem) !important;
+}
+
 .header-profile-user {
   width: 32px;
   height: 32px;
 }
 
 .top-bar-user {
+  width: 125px;
+  background-color: var(--mi-light);
   @media (min-width: 768px) {
     background-color: var(--mi-light);
   }

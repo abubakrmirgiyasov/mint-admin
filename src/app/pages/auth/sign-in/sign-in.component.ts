@@ -74,6 +74,9 @@ export class SignInComponent {
   }
 
   submit(): void {
+    if (this.formGroup.invalid)
+      return;
+
     this.isAuthInProcess = true;
     this.formGroup.disable();
 
@@ -103,4 +106,7 @@ export class SignInComponent {
     return this.night.value;
   }
 
+  onErrorNotificationClose(): void {
+    this.error = null;
+  }
 }

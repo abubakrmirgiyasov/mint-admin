@@ -39,6 +39,14 @@
     margin-top: 24px;
     justify-content: center;
   }
+
+  .w-25 {
+    max-width: 150px;
+
+    @media (max-width: 767px) {
+      width: 100%;
+    }
+  }
 }
 
 .version {
@@ -52,10 +60,6 @@
   position: fixed;
   bottom: 12px;
   right: 12px;
-}
-
-.w-25 {
-  max-width: 150px;
 }
 
 .forget-link {

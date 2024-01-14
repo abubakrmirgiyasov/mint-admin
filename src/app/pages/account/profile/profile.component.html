@@ -1,1 +1,23 @@
-profile works!
+<div class="profile-foreground position-relative mx-n4 mt-n4">
+  <div class="profile-bg">
+    <img
+      src=""
+      alt=""
+      class="profile-img"
+    />
+  </div>
+</div>
+
+<div></div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="d-flex">
+      <ul></ul>
+      <div>
+        <div *ngIf="userInfo">{{ userInfo.fullName }}</div>
+        <a [routerLink]="['/account/settings', userInfo.id]" class="btn">Change cover</a>
+      </div>
+    </div>
+  </div>
+</div>

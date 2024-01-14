@@ -1,6 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {DATA_SIDEBAR_SIZE} from "@core/helpers/constants/storage.constants";
-import {changeSidebarSize} from "@core/helpers/layout.helper";
+import {changeSidebarSize, isClientMobile, setMobileMenuOverlay} from "@core/helpers/layout.helper";
 import {DataLayoutSizes, VERTICAL_SIDEBAR_ENABLE} from "@core/helpers/constants/layout.constants";
 import {getJwtUser} from "@core/helpers/jwt-decode.helper";
 import {JwtUser} from "@core/models/jwt.user";
@@ -11,8 +11,6 @@ import {JwtUser} from "@core/models/jwt.user";
   styleUrl: './top-bar.component.scss'
 })
 export class TopBarComponent implements OnInit {
-  @Output() mobileMenuButtonClick = new EventEmitter();
-
   userInfo!: JwtUser;
   userInfoIsOpened = false;
 
@@ -22,16 +20,16 @@ export class TopBarComponent implements OnInit {
 
   onMobileMenuButtonClick(event: MouseEvent) {
     event.preventDefault();
-    this.mobileMenuButtonClick.emit();
 
-    const dataLayoutSize = localStorage.getItem(DATA_SIDEBAR_SIZE)!;
-    changeSidebarSize(dataLayoutSize);
+    if (isClientMobile()) {
+      setMobileMenuOverlay();
+    } else {
+      const dataLayoutSize = localStorage.getItem(DATA_SIDEBAR_SIZE)!;
+      changeSidebarSize(dataLayoutSize);
 
-    const hamburgerSpan = document.querySelector('.hamburger-icon');
-    hamburgerSpan?.classList.toggle('open');
-
-    if (document.documentElement.clientWidth <= 767)
-      document.body.classList.toggle(VERTICAL_SIDEBAR_ENABLE);
+      const hamburgerSpan = document.querySelector('.hamburger-icon');
+      hamburgerSpan?.classList.toggle('open');
+    }
   }
 
   onUserInfoClick(): void {
@@ -39,14 +37,10 @@ export class TopBarComponent implements OnInit {
   }
 
   onUserInfoObscured(obscured: any): void {
-    console.log(obscured)
-    if (obscured)
-      this.userInfoIsOpened = false;
+    this.userInfoIsOpened = obscured ?? false;
   }
 
   onUserInfoActiveZone(active: any): void {
-    console.log(active)
     this.userInfoIsOpened = active && this.userInfoIsOpened;
   }
-
 }

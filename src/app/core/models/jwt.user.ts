@@ -1,6 +1,6 @@
 export interface JwtUser {
   id: string;
-  avatar: string;
+  avatar: string | null;
   email: string;
   phone: string;
   fullName: string;

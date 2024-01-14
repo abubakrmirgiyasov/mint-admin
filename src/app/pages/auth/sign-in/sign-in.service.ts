@@ -7,7 +7,9 @@ interface ISignInResponse {
   token: string;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SignInService {
 
   constructor(

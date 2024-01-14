@@ -1,4 +1,4 @@
-export const VERTICAL_SIDEBAR_ENABLE = 'vertical-sidebar-enable';
+export const VERTICAL_SIDEBAR_ENABLE: string = 'vertical-sidebar-enable';
 
 export enum DataLayoutSizes {
   sm = 'sm',
