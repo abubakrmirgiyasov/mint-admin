@@ -4,6 +4,7 @@ import {TuiButtonModule, TuiDropdownModule, TuiRootModule, TuiSvgModule} from "@
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {TopBarComponent} from "@components/layout/top-bar/top-bar.component";
 import {SidebarComponent} from "@components/layout/sidebar/sidebar.component";
+import {TuiProgressModule} from "@taiga-ui/kit";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {SidebarComponent} from "@components/layout/sidebar/sidebar.component";
     TuiDropdownModule,
     RouterLink,
     TuiSvgModule,
-    RouterOutlet
+    RouterOutlet,
+    TuiProgressModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [LayoutComponent]

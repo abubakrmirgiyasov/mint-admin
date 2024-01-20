@@ -1,14 +1,73 @@
-<p>settings works!</p>
+<div class="position-relative mx-n4 mt-n4">
+  <div class="profile-bg profile-setting-img">
+    <img
+      alt=""
+      class="profile-img"
+      src="assets/images/common-user/profile-bg.jpg"
+    />
+    <div class="overlay-content">
+      <div class="text-end p-3">
+        <div class="p-0 ms-auto rounded-circle profile-photo-edit">
+          <input class="profile-foreground-img-file-input" id="profile-foreground-img-file-input" type="file"/>
+          <label
+            class="btn btn-light"
+            for="profile-foreground-img-file-input"
+          >
+            <div>
+              <tui-marker-icon
+                class="bg-transparent"
+                size="xs"
+                src="tuiIconImage"
+              ></tui-marker-icon>
+              Изменить фон
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xxl-3">
+    <div class="card mt-5">
+      <tui-island size="l">
+        <div class="text-center">
+          <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+            <img
+              alt="user-profile-image"
+              class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+              src="assets/images/default-image.png">
+            <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+              <input
+                class="profile-img-file-input" id="profile-img-file-input"
+                type="file"
+              >
+              <label class="profile-photo-edit avatar-xs" for="profile-img-file-input">
+                <span class="avatar-title rounded-circle bg-light text-body">
+                  <i class="ri-camera-fill"></i>
+                </span>
+              </label>
+            </div>
+          </div>
+          <h5 class="fs-16 mb-1">Test User</h5>
+          <p class="text-muted mb-0">Lead Designer / Developer</p>
+        </div>
+      </tui-island>
+    </div>
+  </div>
+  <div class="col-xxl-9"></div>
+</div>
 
 <form
-  accept="image/*"
-  enctype="multipart/form-data"
   (ngSubmit)="submit()"
-  [formGroup]="formGroup">
-  <input type="text" formControlName="bucket" />
-  <input type="file" formControlName="image" (change)="showPreview($event)" />
+  [formGroup]="formGroup"
+  accept="image/*"
+  enctype="multipart/form-data">
+  <input formControlName="bucket" type="text"/>
+  <input (change)="showPreview($event)" formControlName="image" type="file"/>
   <div *ngIf="imageURL && imageURL !== ''" class="imagePreview">
-    <img [src]="imageURL" [alt]="formGroup.value.file">
+    <img [alt]="formGroup.value.file" [src]="imageURL">
   </div>
   <button
     type="submit"

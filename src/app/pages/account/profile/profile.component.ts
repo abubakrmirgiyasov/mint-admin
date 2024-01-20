@@ -12,7 +12,7 @@ import {finalize} from "rxjs";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent implements OnInit {
-
+  activeItemIndex = 0;
   userInfo!: JwtUser;
 
   constructor(
@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
   ) {
     this.userInfo = getJwtUser();
 
-    http.get<any>('/admin/admin', {
+    http.get<any>('/account/admin', {
       params: {
         id: this.userInfo.id
       }
@@ -42,5 +42,9 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  onTabChange(item: string): void {
+
   }
 }

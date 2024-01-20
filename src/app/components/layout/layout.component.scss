@@ -1,3 +1,16 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+
+.loader {
+  @include shadow(6);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000000;
+  color: var(--tui-success-fill);
+}
+
 .main-content {
   transition: all 0.1s ease-out;
 }

@@ -1,0 +1,48 @@
+.profile-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 320px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0.6;
+    background: linear-gradient(to top, var(--mi-success), var(--mi-success));
+  }
+
+  .profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.row {
+  --vz-gutter-x: 0;
+  --vz-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: calc(-1 * var(--vz-gutter-y));
+  margin-right: calc(-0.5 * var(--vz-gutter-x));
+  margin-left: calc(-0.5 * var(--vz-gutter-x));
+}
+
+._active {
+  color: var(--tui-base-02) !important;
+}
+
+.tab-hover:hover {
+  color: var(--tui-base-03) !important;
+}
+
+.stack {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

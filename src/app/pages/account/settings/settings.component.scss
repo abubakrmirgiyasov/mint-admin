@@ -1,0 +1,75 @@
+.profile-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 320px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0.6;
+    background: linear-gradient(to top, var(--mi-success), var(--mi-success));
+  }
+
+  .overlay-content {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .profile-foreground-img-file-input {
+    display: none;
+  }
+
+  .btn-light {
+    padding: 0.3rem 1rem;
+    background: var(--tui-secondary);
+    color: var(--tui-link);
+    height: var(--tui-height-m);
+    font: var(--tui-font-text-m);
+    font-weight: bold;
+    transition-property: color, background, opacity;
+    transition-duration: var(--tui-duration, 300ms);
+    transition-timing-function: ease-in-out;
+    position: relative;
+    display: block;
+    appearance: none;
+    border-radius: 1rem;
+
+    &:hover {
+      background: var(--tui-secondary-hover);
+    }
+    div {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: end;
+    }
+  }
+}
+
+.bg-transparent {
+  color: var(--tui-link);
+}
+
+.row {
+  --mi-gutter-x: 1.5rem;
+  --mi-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: calc(-1 * var(--mi-gutter-y));
+  margin-right: calc(-0.5 * var(--mi-gutter-x));
+  margin-left: calc(-0.5 * var(--mi-gutter-x));
+}

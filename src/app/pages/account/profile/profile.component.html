@@ -1,22 +1,224 @@
 <div class="profile-foreground position-relative mx-n4 mt-n4">
   <div class="profile-bg">
     <img
-      src=""
-      alt=""
+      [alt]="userInfo.fullName"
       class="profile-img"
+      src="assets/images/common-user/profile-bg.jpg"
     />
   </div>
 </div>
 
-<div></div>
+<div class="pb-lg-4">
+  <div class="row g-4">
+    <div class="col-auto">
+      <div class="avatar-lg">
+        <img
+          [alt]="userInfo.fullName"
+          class="img-thumbnail rounded-circle"
+          src="assets/images/default-image.png"
+        />
+      </div>
+    </div>
+    <div class="col">
+      <div class="p-2">
+        <h3 class="text-white mb-1">{{ userInfo.fullName }}</h3>
+        <p class="text-white-75">admin</p>
+        <div class="stack text-white-75 gap-1">
+          <div class="me-2">
+            <tui-marker-icon
+              class="text-white-50 fs-16 align-middle bg-transparent"
+              size="xs"
+              src="tuiIconMap"
+            ></tui-marker-icon>
+            California, United States
+          </div>
+          <div>
+            <tui-marker-icon
+              class="text-white-50 fs-16 align-middle bg-transparent"
+              size="xs"
+              src="tuiIconImage"
+            ></tui-marker-icon>
+            Themes brand
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-auto order-last order-lg-0">
+      <div class="row text-white-50 text-center">
+        <div class="col-lg-6 col-4">
+          <div class="p-2">
+            <h4 class="text-white mb-1">24.3K</h4>
+            <p class="fs-14 mb-0">Followers</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-4">
+          <div class="p-2">
+            <h4 class="text-white mb-1">1.4K</h4>
+            <p class="fs-14 mb-0">Following</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<div class="row">
+<div>
   <div class="col-lg-12">
-    <div class="d-flex">
-      <ul></ul>
-      <div>
-        <div *ngIf="userInfo">{{ userInfo.fullName }}</div>
-        <a [routerLink]="['/account/settings', userInfo.id]" class="btn">Change cover</a>
+    <div>
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <tui-tabs
+          [(activeItemIndex)]="activeItemIndex"
+          class="gap-2 gap-lg-3 text-white-75"
+        >
+          <button
+            (click)="onTabChange('test1')"
+            class="tab-hover"
+            tuiTab
+          >
+            Overview
+          </button>
+          <button
+            (click)="onTabChange('test2')"
+            class="tab-hover"
+            tuiTab
+          >
+            Maps
+          </button>
+          <button
+            (click)="onTabChange('test3')"
+            class="tab-hover"
+            tuiTab
+          >
+            Test 3
+          </button>
+        </tui-tabs>
+        <div class="flex-shrink-0">
+          <a
+            [routerLink]="['/account/settings', userInfo.id]"
+            appearance="secondary"
+            icon="tuiIconEdit"
+            size="m"
+            tuiButton
+          >
+
+            Изменить
+          </a>
+        </div>
+      </div>
+      <div class="tab-content text-muted pt-2">
+        <div class="tab-pane">
+          <div class="d-flex flex-wrap mt-0 gap-lg-4">
+            <div class="col-xxl-3">
+              <div class="card">
+                <tui-island size="l">
+                  <div>
+                    <h3 class="tui-island__title">Информация</h3>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-borderless mb-0">
+                      <tbody>
+                      <tr>
+                        <th class="ps-0" scope="row">Full Name :</th>
+                        <td class="text-muted">fff John</td>
+                      </tr>
+                      <tr>
+                        <th class="ps-0" scope="row">Mobile :</th>
+                        <td class="text-muted">1234567890</td>
+                      </tr>
+                      <tr>
+                        <th class="ps-0" scope="row">E-mail :</th>
+                        <td class="text-muted">{{ "admin@themesbrand.com" }}</td>
+                      </tr>
+                      <tr>
+                        <th class="ps-0" scope="row">Location :</th>
+                        <td class="text-muted">California, United States</td>
+                      </tr>
+                      <tr>
+                        <th class="ps-0" scope="row">Joining Date</th>
+                        <td class="text-muted"></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </tui-island>
+              </div>
+              <div class="card">
+                <tui-island size="l">
+                  <div>
+                    <h3 class="tui-island__title">Популярные товары</h3>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-borderless mb-0">
+                      <tbody>
+                      <tr>
+                        <th class="ps-0" scope="row">Full Name :</th>
+                        <td class="text-muted">fff John</td>
+                      </tr>
+                      <tr>
+                        <th class="ps-0" scope="row">Mobile :</th>
+                        <td class="text-muted">1234567890</td>
+                      </tr>
+                      <tr>
+                        <th class="ps-0" scope="row">E-mail :</th>
+                        <td class="text-muted">{{ "admin@themesbrand.com" }}</td>
+                      </tr>
+                      <tr>
+                        <th class="ps-0" scope="row">Location :</th>
+                        <td class="text-muted">California, United States</td>
+                      </tr>
+                      <tr>
+                        <th class="ps-0" scope="row">Joining Date</th>
+                        <td class="text-muted"></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </tui-island>
+              </div>
+            </div>
+            <div class="col-xxl-9">
+              <div class="card">
+                <tui-island size="l">
+                  <div>
+                    <h3 class="tui-island__title">Обо мне</h3>
+                    <p>
+                      Hi I'm Anna Adam, It will be as simple as Occidental; in fact, it will be Occidental. To an
+                      English person,
+                      it will seem like simplified English, as a skeptical Cambridge friend of mine told me what
+                      Occidental is European
+                      languages are members of the same family.
+                    </p>
+                    <div class="row">
+                      <div class="col-6 col-md-4">
+                        <div class="d-flex mt-4">
+                          <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                            <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
+                              <i class="ri-user-2-fill"></i></div>
+                          </div>
+                          <div  class="flex-grow-1 overflow-hidden">
+                            <p class="mb-1">Designation:</p>
+                            <h6 class="text-truncate mb-0">Lead Designer / Developer</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-6 col-md-4">
+                        <div class="d-flex mt-4">
+                          <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                            <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
+                              <i class="ri-global-line"></i></div>
+                          </div>
+                          <div class="flex-grow-1 overflow-hidden"><p class="mb-1">Website:</p>
+                            <a class="fw-semi-bold" routerLink="/">www.mint.com</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </tui-island>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

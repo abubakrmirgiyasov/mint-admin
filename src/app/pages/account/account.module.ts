@@ -4,6 +4,8 @@ import {SharedModule} from "@shared/shared.module";
 import {RouterModule} from "@angular/router";
 import {SettingsComponent} from "@pages/account/settings/settings.component";
 import {ProfileComponent} from "@pages/account/profile/profile.component";
+import {TuiIslandModule, TuiMarkerIconModule, TuiTabsModule} from "@taiga-ui/kit";
+import {TuiButtonModule} from "@taiga-ui/core";
 
 @NgModule({
   declarations: [
@@ -16,6 +18,10 @@ import {ProfileComponent} from "@pages/account/profile/profile.component";
     RouterModule,
 
     AccountRoutingModule,
+    TuiMarkerIconModule,
+    TuiButtonModule,
+    TuiTabsModule,
+    TuiIslandModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
