@@ -18,6 +18,8 @@
     "@angular/platform-browser": "^17.0.0",
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/router": "^17.0.0",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "@taiga-ui/cdk": "^3.61.0",
     "@taiga-ui/core": "^3.61.0",
     "@taiga-ui/i18n": "^3.61.0",
@@ -25,6 +27,7 @@
     "@taiga-ui/kit": "^3.61.0",
     "@taiga-ui/styles": "^3.61.0",
     "jwt-decode": "^4.0.0",
+    "ngx-cookie-service": "^17.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"

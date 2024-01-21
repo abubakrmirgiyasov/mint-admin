@@ -1,0 +1,22 @@
+[data-mode="onDark"] {
+  --#{$prefix}white: #212529;
+  --#{$prefix}black: #fff;
+
+  --#{$prefix}top-bar-user-bg: var(--tui-clear-inverse);
+  --#{$prefix}vertical-menu-bg: #212529;
+
+  .user-name-text {
+    color: var(--tui-text-02-night);
+  }
+
+  .dropdown-menu {
+    background-color: var(--tui-clear-inverse);
+    * {
+      color: var(--tui-text-02-night);
+    }
+
+    .dropdown-item:hover {
+      background-color: var(--tui-clear-inverse);
+    }
+  }
+}

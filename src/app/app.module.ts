@@ -2,7 +2,7 @@ import {NgModule} from "@angular/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {
   TuiAlertModule,
   TuiDialogModule,
@@ -15,10 +15,24 @@ import {TuiLetModule} from "@taiga-ui/cdk";
 import {TuiProgressModule} from "@taiga-ui/kit";
 import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
-import {LayoutModule} from "@components/layout/layout.module";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+
+export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
 
 @NgModule({
   imports: [
+    TranslateModule.forRoot({
+      defaultLanguage: 'ru',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps:[HttpClient]
+      }
+    }),
+
     HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -34,7 +48,6 @@ import {LayoutModule} from "@components/layout/layout.module";
     TuiLetModule,
     TuiProgressModule,
     TuiLoaderModule
-
   ],
   declarations: [
     AppComponent,

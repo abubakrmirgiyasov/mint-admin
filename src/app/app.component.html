@@ -1,1 +1,16 @@
-<router-outlet></router-outlet>
+<progress
+  [value]="55"
+  class="loader"
+  max="100"
+  size="s"
+  tuiProgressBar
+></progress>
+
+<ng-container *tuiLet="night$ | async as isNightMode">
+  <tui-theme-night *ngIf="isNightMode"></tui-theme-night>
+  <tui-root [tuiMode]="isNightMode ? 'onDark' : 'onLight'">
+    <tui-loader [overlay]="true" [showLoader]="false" size="xl">
+      <router-outlet></router-outlet>
+    </tui-loader>
+  </tui-root>
+</ng-container>

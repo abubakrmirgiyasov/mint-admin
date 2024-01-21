@@ -1,4 +1,142 @@
 <div class="app-nav navbar-menu">
-  <a routerLink="/">test</a>
+  <div class="navbar-brand-box">
+    <a class="logo logo-dark" routerLink="/">
+      <span class="logo-sm">
+        <img alt="logo sm" height="22" src="assets/favicon.ico"/>
+      </span>
+      <span class="logo-lg">
+        <img alt="logo lg" height="29" src="assets/images/logos/logo-dark.png"/>
+      </span>
+    </a>
+    <a class="logo logo-light" routerLink="/">
+      <span class="logo-sm">
+        <img alt="logo sm" height="22" src="assets/favicon.ico"/>
+      </span>
+      <span class="logo-lg">
+        <img alt="logo lg" height="29" src="assets/images/logos/logo-dark.png"/>
+      </span>
+    </a>
+  </div>
+
+  <div id="scrollbar">
+    <tui-scrollbar class="box">
+      <div class="container-fluid">
+        <div *ngFor="let menu of menuItems" class="navbar-nav">
+          <div class="menu-title" *ngIf="menu.isTitle">
+            <span>{{ menu.label | translate }}</span>
+          </div>
+          <tui-accordion
+            class="container"
+            [rounded]="false"
+            *ngIf="!menu.isTitle && !menu.isLayout"
+          >
+            <tui-accordion-item
+              class="nav-item"
+              [disableHover]="true"
+              [borders]="null"
+              *ngIf="hasItems(menu)"
+            >
+              <a
+                *ngIf="hasItems(menu)"
+                class="is-parent nav-link menu-link"
+              >
+                <tui-marker-icon
+                  size="xs"
+                  [src]="menu.icon || ''"
+                  class="bg-transparent ico-color"
+                ></tui-marker-icon>
+                <span>{{ menu.label | translate }}</span>
+                <span
+                  class="badge badge-pill {{menu.badge.variant}}"
+                  *ngIf="menu.badge"
+                >
+                  {{menu.badge.text | translate}}
+                </span>
+              </a>
+              <ng-template tuiAccordionItemContent>
+                <div *ngFor="let subMenu of menu.subItems">
+                  <tui-accordion
+                    class="container"
+                    [rounded]="false"
+                  >
+                    <tui-accordion-item
+                      class="nav-item"
+                      [disableHover]="true"
+                      [borders]="null"
+                      *ngIf="hasItems(subMenu)"
+                    >
+                      {{ subMenu.label | translate }}
+                      <ng-template tuiAccordionItemContent>
+                       <div *ngFor="let sSubMenu of subMenu.subItems">
+                         <tui-accordion
+                          class="container"
+                          [rounded]="false"
+                         >
+                          <tui-accordion-item
+                            class="nav-item"
+                            [disableHover]="true"
+                            [borders]="null"
+                            [showArrow]="false"
+                          >
+                            <a
+                              [routerLink]="sSubMenu.link"
+                              class="nav-link"
+                            >
+                              {{ sSubMenu.label | translate }}
+                            </a>
+                          </tui-accordion-item>
+                         </tui-accordion>
+                       </div>
+                      </ng-template>
+                    </tui-accordion-item>
+                    <tui-accordion-item
+                      class="nav-item"
+                      [disableHover]="true"
+                      [borders]="null"
+                      [showArrow]="false"
+                      *ngIf="!hasItems(subMenu)"
+                    >
+                      <a
+                        [routerLink]="subMenu.link"
+                        class="nav-link"
+                      >
+                        {{ subMenu.label | translate }}
+                      </a>
+                    </tui-accordion-item>
+                  </tui-accordion>
+                </div>
+              </ng-template>
+            </tui-accordion-item>
+            <tui-accordion-item
+              *ngIf="!hasItems(menu)"
+              [disabled]="true"
+              [showArrow]="false"
+              [borders]="null"
+              [disableHover]="true"
+            >
+              <a
+                *ngIf="!hasItems(menu)"
+                [routerLink]="menu.link"
+                class="side-nav-link-ref nav-link menu-link"
+              >
+                <tui-marker-icon
+                  size="xs"
+                  [src]="menu.icon || ''"
+                  class="bg-transparent ico-color"
+                ></tui-marker-icon>
+                <span>{{ menu.label | translate }}</span>
+                <span
+                  class="badge badge-pill {{ menu.badge.variant }}"
+                  *ngIf="menu.badge"
+                >
+                  {{ menu.badge.text | translate }}
+                </span>
+              </a>
+            </tui-accordion-item>
+          </tui-accordion>
+        </div>
+      </div>
+    </tui-scrollbar>
+  </div>
 </div>
-<div class="vertical-overlay" (click)="onToggle($event)"></div>
+<div (click)="onToggle($event)" class="vertical-overlay"></div>

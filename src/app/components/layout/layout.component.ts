@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DataLayoutSizes, VERTICAL_SIDEBAR_ENABLE} from "@core/helpers/constants/layout.constants";
+import {DataLayoutSizes} from "@core/helpers/constants/layout.constants";
 import {DATA_MOBILE, DATA_SIDEBAR_SIZE} from "@core/helpers/constants/storage.constants";
 import {
   changeHTMLAttribute,

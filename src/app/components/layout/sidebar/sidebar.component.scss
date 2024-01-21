@@ -12,6 +12,58 @@
   z-index: 1004;
 }
 
+.navbar-brand-box {
+  padding: 0 1.3rem;
+  text-align: center;
+  transition: all 0.1s ease-out;
+}
+
+.navbar-nav {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+
+  .menu-title {
+    letter-spacing: 0.05em;
+    cursor: default;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--tui-text-03-night);
+    font-weight: 600;
+
+    span {
+      padding: 12px 20px;
+      display: inline-block;
+    }
+  }
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  color: var(--tui-text-03-night);
+  font-size: 0.9375rem;
+  font-family: "hkgrotesk", sans-serif;
+
+  .ico-color {
+    color: var(--tui-text-03-night);
+  }
+
+  &.active {
+    color: var(--tui-text-01-night);
+
+    .ico-color {
+      color: var(--tui-text-01-night);
+    }
+  }
+}
+
+.container-fluid {
+  padding: 0;
+}
+
 .vertical-overlay {
   position: fixed;
   top: 0;

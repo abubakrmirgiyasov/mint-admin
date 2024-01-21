@@ -1,0 +1,31 @@
+{
+  "HEADER": {
+
+  },
+  "MENUITEMS":{
+    "MENU": {
+      "TEXT": "МЕНЮ"
+    },
+    "DASHBOARD": {
+      "TEXT": "Дашбоард",
+      "BADGE": "Новый",
+      "LIST": {
+        "ANALYTICS": "Аналитика",
+        "CRM": "CRM"
+      }
+    },
+    "APPS": {
+      "TEXT": "Программы",
+      "LIST": {
+        "CALENDAR": "Календарь",
+        "CHAT": "Чат",
+        "EMAIL": "Эл. адрес",
+        "MAILBOX": "Почтовый ящик",
+        "MAILTEMPLATES": "Шаблоны электронной почты",
+        "BASICACTION": "Основное действие",
+        "ECOMMERCEACTION": "Действие электронной торговли",
+        "ECOMMERCE": "Электронная торговля"
+      }
+    }
+  }
+}

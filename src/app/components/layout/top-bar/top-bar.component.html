@@ -1,14 +1,14 @@
-<header id="page-top-bar" class="item_sidebar">
+<header class="item_sidebar" id="page-top-bar">
   <div class="layout-width">
     <div class="navbar-header">
       <div class="d-flex">
         <button
-          tuiButton
+          (click)="onMobileMenuButtonClick($event)"
           appearance="flat"
-          type="button"
           class="header-item vertical-menu-btn top-nav-hamburger"
           id="top-nav-hamburger-icon"
-          (click)="onMobileMenuButtonClick($event)"
+          tuiButton
+          type="button"
         >
           <span class="hamburger-icon">
             <span></span>
@@ -18,23 +18,34 @@
         </button>
       </div>
 
-      <div class="d-flex align-items-center ">
-        <tui-root>
-          <div class="dropdown header-item top-bar-user">
-            <button
-              type="button"
-              class="dropdown-toggle btn"
-              [tuiDropdown]="dropdownContent"
-              [tuiDropdownManual]="userInfoIsOpened"
-              (click)="onUserInfoClick()"
-              (tuiActiveZoneChange)="onUserInfoActiveZone($event)"
-              (tuiObscured)="onUserInfoObscured($event)"
-            >
+      <div class="d-flex align-items-center gap-3">
+        <div class="theme-switcher-container">
+          <button
+            (click)="switchTheme()"
+            [icon]="themeValue() ? 'tuiIconSun' : 'tuiIconMoon'"
+            appearance="custom"
+            shape="rounded"
+            size="m"
+            tuiIconButton
+            type="button"
+          ></button>
+        </div>
+
+        <div class="dropdown header-item top-bar-user">
+          <button
+            (click)="onUserInfoClick()"
+            (tuiActiveZoneChange)="onUserInfoActiveZone($event)"
+            (tuiObscured)="onUserInfoObscured($event)"
+            [tuiDropdownManual]="userInfoIsOpened"
+            [tuiDropdown]="dropdownContent"
+            class="dropdown-toggle btn"
+            type="button"
+          >
               <span class="d-flex  align-items-center">
                 <img
                   [src]="userInfo.avatar ?? 'assets/images/default-image.png'"
-                  class="rounded-circle header-profile-user"
                   alt="header avatar"
+                  class="rounded-circle header-profile-user"
                 />
                 <span class="text-start ms-xl-2">
                   <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
@@ -42,43 +53,42 @@
                   </span>
                 </span>
               </span>
-              <ng-template #dropdownContent>
-                <div class="dropdown dropdown-menu dropdown-menu-start">
-                  <h6 class="dropdown-header">Добро Пожаловать!</h6>
-                  <a
-                    class="dropdown-item"
-                    [routerLink]="['/account', userInfo.id]"
-                  >
-                    <tui-svg src="tuiIconUserLarge" class="me-2"></tui-svg>
-                    <span class="align-middle fs-16">Профиль</span>
-                  </a>
-                  <a
-                    class="dropdown-item"
-                    routerLink="/"
-                  >
-                    <tui-svg src="tuiIconCode" class="me-2"></tui-svg>
-                    <span class="align-middle fs-16">Messages</span>
-                  </a>
-                  <a
-                    class="dropdown-item"
-                    routerLink="/"
-                  >
-                    <tui-svg src="tuiIconInfo" class="me-2"></tui-svg>
-                    <span class="align-middle fs-16">Info</span>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a
-                    class="dropdown-item"
-                    routerLink="/"
-                  >
-                    <tui-svg src="tuiIconLogOut" class="me-2"></tui-svg>
-                    <span class="align-middle fs-16">Выйти</span>
-                  </a>
-                </div>
-              </ng-template>
-            </button>
-          </div>
-        </tui-root>
+            <ng-template #dropdownContent>
+              <div class="dropdown dropdown-menu dropdown-menu-start">
+                <h6 class="dropdown-header">Добро Пожаловать!</h6>
+                <a
+                  [routerLink]="['/account', userInfo.id]"
+                  class="dropdown-item"
+                >
+                  <tui-svg class="mr-3" src="tuiIconUserLarge"></tui-svg>
+                  <span class="align-middle fs-16">Профиль</span>
+                </a>
+                <a
+                  class="dropdown-item"
+                  routerLink="/"
+                >
+                  <tui-svg class="mr-3" src="tuiIconCode"></tui-svg>
+                  <span class="align-middle fs-16">Messages</span>
+                </a>
+                <a
+                  class="dropdown-item"
+                  routerLink="/"
+                >
+                  <tui-svg class="mr-3" src="tuiIconInfo"></tui-svg>
+                  <span class="align-middle fs-16">Info</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a
+                  class="dropdown-item"
+                  routerLink="/"
+                >
+                  <tui-svg class="mr-3" src="tuiIconLogOut"></tui-svg>
+                  <span class="align-middle fs-16">Выйти</span>
+                </a>
+              </div>
+            </ng-template>
+          </button>
+        </div>
       </div>
     </div>
   </div>

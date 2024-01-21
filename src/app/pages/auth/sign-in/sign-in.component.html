@@ -1,99 +1,98 @@
 <div class="container">
-  <tui-island size="m" textAlign="center" class="login-island">
+  <tui-island class="login-island" size="m" textAlign="center">
     <div class="tui-island__content">
       <div class="header">
-        <img src="/assets/favicon.ico" alt="" srcset="" />
+        <img alt="" src="/assets/favicon.ico" srcset=""/>
         <div>
           <h3 class="tui-island__title">MINT</h3>
           <h4 class="tui-island__paragraph">Вход в систему</h4>
         </div>
       </div>
       <form
-        class="tui-space_top-4"
         [formGroup]="formGroup"
         [tuiTextfieldCleaner]="true"
+        class="tui-space_top-4"
       >
-        <tui-root>
-          <tui-notification
-            *ngIf="!!error"
-            status="error"
-            class="tui-space_vertical-4"
-            (close)="onErrorNotificationClose()"
+        <tui-notification
+          (close)="onErrorNotificationClose()"
+          *ngIf="!!error"
+          class="tui-space_vertical-4"
+          status="error"
+        >
+          {{ error }}
+        </tui-notification>
+        <div class="tui-form__row tui-form__row_multi-fields">
+          <tui-select
+            (ngModelChange)="onTypeChanged($event)"
+            [tuiTextfieldLabelOutside]="true"
+            class="tui-form__multi-field login-type w-25"
+            formControlName="type"
+            tuiTextfieldSize="l"
           >
-            {{ error }}
-          </tui-notification>
-          <div class="tui-form__row tui-form__row_multi-fields">
-            <tui-select
-              tuiTextfieldSize="l"
-              class="tui-form__multi-field login-type w-25"
-              formControlName="type"
-              (ngModelChange)="onTypeChanged($event)"
-              [tuiTextfieldLabelOutside]="true"
-            >
-              <tui-data-list-wrapper
-                *tuiDataList
-                [items]="types"
-              ></tui-data-list-wrapper>
-            </tui-select>
+            <tui-data-list-wrapper
+              *tuiDataList
+              [items]="types"
+            ></tui-data-list-wrapper>
+          </tui-select>
 
-            <tui-input
-              *ngIf="type"
+          <tui-input
+            *ngIf="type"
+            class="tui-form__multi-field"
+            formControlName="login"
+          >
+            Логин
+            <input
+              (keyup.enter)="passwordElement.nativeElement.focus()"
+              autocomplete="login"
               formControlName="login"
-              class="tui-form__multi-field"
-            >
-              Логин
-              <input
-                autocomplete="login"
-                tuiTextfield
-                (keyup.enter)="passwordElement.nativeElement.focus()"
-                formControlName="login"
-                type="email"
-              />
-            </tui-input>
+              tuiTextfield
+              type="email"
+            />
+          </tui-input>
 
-            <tui-input-phone-international
-              *ngIf="!type"
-              class="tui-form__multi-field"
-              formControlName="login"
-              [countries]="countries"
-              [tuiTextfieldLabelOutside]="true"
-              [(countryIsoCode)]="countryIsoCode"
-              (countryIsoCodeChange)="onPhoneCountryCodeChange($event)"
-            >
-            </tui-input-phone-international>
-          </div>
+          <tui-input-phone-international
+            (countryIsoCodeChange)="onPhoneCountryCodeChange($event)"
+            *ngIf="!type"
+            [(countryIsoCode)]="countryIsoCode"
+            [countries]="countries"
+            [tuiTextfieldLabelOutside]="true"
+            class="tui-form__multi-field"
+            formControlName="login"
+          >
+          </tui-input-phone-international>
+        </div>
 
-          <div class="tui-form__row">
-            <tui-input-password formControlName="password">
-              Пароль
-              <input
-                tuiTextfield
-                autocomplete="current-password"
-                #passwordElement="elementRef"
-                tuiElement
-                (keyup.enter)="submit()"
-              />
-            </tui-input-password>
-          </div>
+        <div class="tui-form__row">
+          <tui-input-password formControlName="password">
+            Пароль
+            <input
+              #passwordElement="elementRef"
+              (keyup.enter)="submit()"
+              autocomplete="current-password"
+              tuiElement
+              tuiTextfield
+            />
+          </tui-input-password>
+        </div>
 
-          <div class="forget-link">
-            <a routerLink="/forget-password">
-              Забыли пароль?
-            </a>
-          </div>
+        <div class="forget-link">
+          <a routerLink="/forget-password">
+            Забыли пароль?
+          </a>
+        </div>
 
-          <div class="actions">
-            <button
-              tuiButton
-              icon="tuiIconLogIn"
-              [showLoader]="isAuthInProcess"
-              [disabled]="formGroup.invalid"
-              (click)="submit()"
-            >
-              Войти
-            </button>
-          </div>
-        </tui-root>
+        <div class="actions">
+          <button
+            (click)="submit()"
+            [disabled]="formGroup.invalid"
+            [showLoader]="isAuthInProcess"
+            icon="tuiIconLogIn"
+            appearance="custom"
+            tuiButton
+          >
+            Войти
+          </button>
+        </div>
       </form>
     </div>
   </tui-island>

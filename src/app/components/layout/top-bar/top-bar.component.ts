@@ -4,6 +4,7 @@ import {changeSidebarSize, isClientMobile, setMobileMenuOverlay} from "@core/hel
 import {DataLayoutSizes, VERTICAL_SIDEBAR_ENABLE} from "@core/helpers/constants/layout.constants";
 import {getJwtUser} from "@core/helpers/jwt-decode.helper";
 import {JwtUser} from "@core/models/jwt.user";
+import {ThemeService} from "@core/services/theme.service";
 
 @Component({
   selector: 'app-top-bar',
@@ -13,6 +14,10 @@ import {JwtUser} from "@core/models/jwt.user";
 export class TopBarComponent implements OnInit {
   userInfo!: JwtUser;
   userInfoIsOpened = false;
+
+  constructor(
+    protected night: ThemeService,
+  ) { }
 
   ngOnInit(): void {
     this.userInfo = getJwtUser();
@@ -42,5 +47,13 @@ export class TopBarComponent implements OnInit {
 
   onUserInfoActiveZone(active: any): void {
     this.userInfoIsOpened = active && this.userInfoIsOpened;
+  }
+
+  switchTheme(): void {
+    this.night.toggle();
+  }
+
+  themeValue(): boolean {
+    return this.night.value;
   }
 }

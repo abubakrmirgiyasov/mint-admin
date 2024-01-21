@@ -64,4 +64,16 @@
 
 .forget-link {
   float: left;
+  a {
+    color: var(--tui-primary);
+  }
+}
+
+[data-appearance='custom'] {
+  background-color: var(--tui-success-fill);
+  color: var(--tui-base-01);
+
+  .t-wrapper-hover {
+    background-color: var(--tui-success-bg-hover);
+  }
 }
