@@ -1,0 +1,52 @@
+<div class="position-relative">
+  <app-search-bar (valueChange)="applySearch($event)" #search></app-search-bar>
+
+  <button
+    tuiIconButton
+    appearance="custom"
+    icon="tuiIconSearchLarge"
+    shape="rounded"
+    type="button"
+    size="m"
+    class="search-open"
+    [class._opened]="search.isSearchShown$ | async"
+    (click)="search.open()"
+  ></button>
+
+  <button
+    tuiIconButton
+    icon="tuiIconRefreshCwLarge"
+    shape="rounded"
+    type="button"
+    appearance="custom"
+    size="m"
+    class="refresh"
+    [class._opened]="search.isSearchShown$ | async"
+    (click)="refresh()"
+  ></button>
+</div>
+
+<div class="filter-toolbar">
+  <button
+    tuiIconButton
+    icon="tuiIconSettings"
+    shape="rounded"
+    appearance="custom"
+    size="m"
+    class="settings"
+    tuiHint="Настройки"
+    tuiHintDirection="top"
+    tuiHintDescribe
+  ></button>
+
+  <a
+    tuiButton
+    size="m"
+    appearance="custom"
+    icon="tuiIconPlus"
+    routerLink="new"
+    class="add-new"
+  >
+    Добавить новый...
+  </a>
+</div>

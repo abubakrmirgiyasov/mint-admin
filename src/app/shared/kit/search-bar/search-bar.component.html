@@ -1,0 +1,32 @@
+<div
+  class="toolbar search-bar"
+  *ngIf="isSearchShown$ | async"
+  [@tuiFadeIn]="getSearchBarAnimation(150)"
+>
+  <tui-input
+    class="input"
+    tuiAutoFocus
+    tuiTextfieldSize="m"
+    tuiTextfieldIcon="tuiIconSearchLarge"
+    [tuiTextfieldCleaner]="true"
+    [tuiTextfieldLabelOutside]="true"
+    [formControl]="searchControl"
+  >
+    Поиск...
+    <input
+      tuiTextfield
+      (keyup.escape)="close()"
+    />
+  </tui-input>
+  <button
+    tuiIconButton
+    type="button"
+    icon="tuiIconCloseLarge"
+    shape="rounded"
+    appearance="custom"
+    class="search-close"
+    tuiMode="onDark"
+    size="m"
+    (click)="close()"
+  ></button>
+</div>

@@ -26,47 +26,52 @@ export const MENU: MenuItem[] = [
     ]
   },
   {
+    id: 14,
+    label: 'MENUITEMS.ADMINISTRATING.TEXT',
+    isTitle: true,
+  },
+  {
     id: 5,
-    label: 'MENUITEMS.APPS.TEXT',
+    label: 'MENUITEMS.CATALOG.TEXT',
     icon: 'tuiIconPaperclip',
     subItems: [
       {
         id: 6,
-        label: 'MENUITEMS.APPS.LIST.CALENDAR',
-        link: '/calendar',
+        label: 'MENUITEMS.CATALOG.LIST.CATEGORIES',
+        link: '/catalog/categories',
         parentId: 5
       },
       {
         id: 7,
-        label: 'MENUITEMS.APPS.LIST.CHAT',
+        label: 'MENUITEMS.CATALOG.LIST.CHAT',
         link: '/chat',
         parentId: 5
       },
       {
         id: 8,
-        label: 'MENUITEMS.APPS.LIST.EMAIL',
+        label: 'MENUITEMS.CATALOG.LIST.EMAIL',
         parentId: 5,
         subItems: [
           {
             id: 9,
-            label: 'MENUITEMS.APPS.LIST.MAILBOX',
+            label: 'MENUITEMS.CATALOG.LIST.MAILBOX',
             link: '/mailbox',
             parentId: 8
           },
           {
             id: 10,
-            label: 'MENUITEMS.APPS.LIST.MAILTEMPLATES',
+            label: 'MENUITEMS.CATALOG.LIST.MAILTEMPLATES',
             parentId: 8,
             subItems: [
               {
                 id: 11,
-                label: 'MENUITEMS.APPS.LIST.BASICACTION',
+                label: 'MENUITEMS.CATALOG.LIST.BASICACTION',
                 link: '/email-basic',
                 parentId: 10
               },
               {
                 id: 12,
-                label: 'MENUITEMS.APPS.LIST.ECOMMERCEACTION',
+                label: 'MENUITEMS.CATALOG.LIST.ECOMMERCEACTION',
                 link: '/email-ecommerce',
                 parentId: 10
               },
@@ -82,4 +87,5 @@ export const MENU: MenuItem[] = [
     link: '/',
     icon: 'tuiIconDroplet',
   }
+  // id: 15
 ];

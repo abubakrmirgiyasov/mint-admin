@@ -13,7 +13,7 @@ interface ISignInResponse {
 export class SignInService {
 
   constructor(
-    private http: HttpClient
+    private readonly http: HttpClient
   ) { }
 
   submit<T>(data: T): Observable<ISignInResponse> {
@@ -23,5 +23,4 @@ export class SignInService {
   isAuthenticated(): boolean {
     return !!localStorage.getItem(ACCESS_TOKEN);
   }
-
 }

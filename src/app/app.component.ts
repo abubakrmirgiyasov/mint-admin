@@ -1,7 +1,8 @@
 import {Component, HostBinding} from "@angular/core";
 import {ThemeService} from "@core/services/theme.service";
-import {distinctUntilChanged, map, share, startWith} from "rxjs";
+import {delay, distinctUntilChanged, map, Observable, share, startWith} from "rxjs";
 import {TuiBrightness} from "@taiga-ui/core";
+import {LoadingBarService} from "@ngx-loading-bar/core";
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import {TuiBrightness} from "@taiga-ui/core";
 export class AppComponent {
   title = "Mint";
 
+  loaderValue$: Observable<number>;
   night$ = this.night.pipe(
     startWith(null),
     map(() => this.night.value),
@@ -19,8 +21,11 @@ export class AppComponent {
   );
 
   constructor(
+    private readonly loader: LoadingBarService,
     private readonly night: ThemeService
-  ) { }
+  ) {
+    this.loaderValue$ = loader.value$.pipe(delay(0));
+  }
 
   @HostBinding('attr.data-mode')
   get mode(): TuiBrightness | null {

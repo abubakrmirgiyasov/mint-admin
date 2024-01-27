@@ -20,5 +20,16 @@
     "pathRewrite": {
       "^/file": "/storage"
     }
+  },
+  "/api": {
+    "target": "https://localhost:7064",
+    "changeOrigin": true,
+    "secure": false,
+    "headers": {
+      "Connection": "Keep-Alive"
+    },
+    "pathRewrite": {
+      "^/api": "/a/v1"
+    }
   }
 }

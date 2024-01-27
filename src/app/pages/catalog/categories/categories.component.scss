@@ -1,0 +1,29 @@
+._opened {
+  display: none;
+}
+
+.position-relative {
+  height: 55px;
+  margin: 0.5rem;
+}
+
+.settings,
+.search-open,
+.refresh {
+  transition: .35s ease-out all;
+
+  &:hover {
+    background-color: var(--mi-success);
+    transition: .35s ease-out all;
+  }
+}
+
+.add-new {
+  background-color: var(--mi-success);
+  transition: .35s ease-out all;
+
+  &:hover {
+    background-color: var(--tui-success-fill);
+    transition: .35s ease-out all;
+  }
+}

@@ -14,10 +14,13 @@
         "CRM": "CRM"
       }
     },
-    "APPS": {
-      "TEXT": "Программы",
+    "ADMINISTRATING": {
+      "TEXT": "Администрирование"
+    },
+    "CATALOG": {
+      "TEXT": "Каталог",
       "LIST": {
-        "CALENDAR": "Календарь",
+        "CATEGORIES": "Категории",
         "CHAT": "Чат",
         "EMAIL": "Эл. адрес",
         "MAILBOX": "Почтовый ящик",

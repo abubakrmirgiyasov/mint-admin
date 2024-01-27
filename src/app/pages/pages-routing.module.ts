@@ -8,14 +8,19 @@ const routes: Routes = [
     component: DashboardComponent,
   },
   {
+    path: 'account',
+    loadChildren: () => import('./account/account.module')
+      .then((i) => i.AccountModule)
+  },
+  {
     path: 'dashboard',
     loadChildren: () => import('./dashboards/dashboard.module')
       .then((i) => i.DashboardModule)
   },
   {
-    path: 'account',
-    loadChildren: () => import('./account/account.module')
-      .then((i) => i.AccountModule)
+    path: 'catalog',
+    loadChildren: () => import('./catalog/catalog.module')
+      .then((c) => c.CatalogModule)
   }
 ];
 
