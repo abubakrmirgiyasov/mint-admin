@@ -8,8 +8,17 @@ import {CategoriesService} from "@pages/catalog/categories/categories.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoriesComponent {
-
-
+  columns = [
+    'displayOrder',
+    'photo',
+    'name',
+    'ico',
+    'badgeStyle',
+    'badgeText',
+    'defaultLink',
+    'subCategories',
+    'actions',
+  ];
 
   applySearch(value: string): void {
 

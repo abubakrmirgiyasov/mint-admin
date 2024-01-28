@@ -26,6 +26,8 @@
           appearance="custom"
           size="m"
           class="btn-success ms-2"
+          [showLoader]="saveLoader"
+          [disabled]="!generalFormGroup.valid"
           (click)="onSave()"
         >
           Сохранить
@@ -35,7 +37,7 @@
           appearance="custom"
           size="m"
           class="btn-secondary"
-          [disabled]="generalFormGroup.enabled"
+          [disabled]="!generalFormGroup.valid"
           (click)="onSaveAndContinue()"
         >
           Сохранить и редактировать
@@ -175,6 +177,7 @@
                       *tuiLet="data$ | async as data"
                       (searchChange)="onDefaultLinkSearch($event)"
                       formControlName="defaultLink"
+                      [strict]="false"
                     >
                       Ссылка по умолчанию
                       <input
@@ -344,7 +347,26 @@
                       (ngModelChange)="onCategoryPhotoChange($event)"
                       (reject)="onCategoryPhotoReject($event)"
                     ></tui-input-files>
-                    <div class="photos"></div>
+                    <div class="photos d-flex align-items-center gap-lg-3" *ngIf="!!photo">
+                      <div class="photo">
+                        <img
+                          class="photo-det"
+                          [src]="imageURL"
+                          [alt]="photo.name"
+                          [height]="65"
+                        />
+                      </div>
+                      <div class="photo-info d-flex align-items-center">
+                        <h4 class="mb-0">{{ photo.name }}</h4>
+                        <button
+                          tuiButton
+                          icon="tuiIconX"
+                          size="xs"
+                          appearance="flat"
+                          (click)="onCategoryPhotoRemoved()"
+                        ></button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

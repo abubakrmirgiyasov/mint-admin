@@ -1,52 +1,73 @@
-<div class="position-relative">
-  <app-search-bar (valueChange)="applySearch($event)" #search></app-search-bar>
+<tui-island>
+  <div class="position-relative">
+    <app-search-bar (valueChange)="applySearch($event)" #search></app-search-bar>
 
-  <button
-    tuiIconButton
-    appearance="custom"
-    icon="tuiIconSearchLarge"
-    shape="rounded"
-    type="button"
-    size="m"
-    class="search-open"
-    [class._opened]="search.isSearchShown$ | async"
-    (click)="search.open()"
-  ></button>
+    <button
+      tuiIconButton
+      appearance="custom"
+      icon="tuiIconSearchLarge"
+      shape="rounded"
+      type="button"
+      size="m"
+      class="search-open"
+      [class._opened]="search.isSearchShown$ | async"
+      (click)="search.open()"
+    ></button>
 
-  <button
-    tuiIconButton
-    icon="tuiIconRefreshCwLarge"
-    shape="rounded"
-    type="button"
-    appearance="custom"
-    size="m"
-    class="refresh"
-    [class._opened]="search.isSearchShown$ | async"
-    (click)="refresh()"
-  ></button>
-</div>
+    <button
+      tuiIconButton
+      icon="tuiIconRefreshCwLarge"
+      shape="rounded"
+      type="button"
+      appearance="custom"
+      size="m"
+      class="refresh"
+      [class._opened]="search.isSearchShown$ | async"
+      (click)="refresh()"
+    ></button>
+  </div>
 
-<div class="filter-toolbar">
-  <button
-    tuiIconButton
-    icon="tuiIconSettings"
-    shape="rounded"
-    appearance="custom"
-    size="m"
-    class="settings"
-    tuiHint="Настройки"
-    tuiHintDirection="top"
-    tuiHintDescribe
-  ></button>
+  <div class="filter-toolbar">
+    <button
+      tuiIconButton
+      icon="tuiIconSettings"
+      shape="rounded"
+      appearance="custom"
+      size="m"
+      class="settings"
+      tuiHint="Настройки"
+      tuiHintDirection="top"
+      tuiHintDescribe
+    ></button>
 
-  <a
-    tuiButton
-    size="m"
-    appearance="custom"
-    icon="tuiIconPlus"
-    routerLink="new"
-    class="add-new"
-  >
-    Добавить новый...
-  </a>
-</div>
+    <a
+      tuiButton
+      size="m"
+      appearance="custom"
+      icon="tuiIconPlus"
+      routerLink="new"
+      class="add-new"
+    >
+      Добавить новый...
+    </a>
+  </div>
+
+  <tui-loader class="loader" [overlay]="true" [showLoader]="false">
+    <tui-scrollbar>
+      <table tuiTable class="table" [columns]="columns">
+        <thead>
+        <tr tuiThGroup>
+          <th tuiTh *tuiHead="'displayOrder'" [sticky]="false">Отобразить в порядке</th>
+          <th tuiTh *tuiHead="'photo'" [sticky]="false">Изоброжение</th>
+          <th tuiTh *tuiHead="'name'" [sticky]="false">Название</th>
+          <th tuiTh *tuiHead="'ico'" [sticky]="false">Иконка</th>
+          <th tuiTh *tuiHead="'badgeText'" [sticky]="false">Значок</th>
+          <th tuiTh *tuiHead="'defaultLink'" [sticky]="false">Путь</th>
+          <th tuiTh *tuiHead="'subCategories'" [sticky]="false">Под категории</th>
+          <th tuiTh *tuiHead="'actions'" [sticky]="false"></th>
+        </tr>
+        </thead>
+      </table>
+    </tui-scrollbar>
+  </tui-loader>
+</tui-island>

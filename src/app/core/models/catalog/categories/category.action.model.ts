@@ -15,3 +15,19 @@ export interface CategoryActionModel {
   categoryTags: FormControl<string[] | null>;
   products: FormControl<string[] | null>;
 }
+
+export interface CategoryFormValueModel {
+  name: string;
+  displayOrder: number | null;
+  defaultLink: string | null;
+  badgeText: string | null;
+  badgeStyle: string | null;
+  isPublished: boolean | null;
+  showOnHomePage: boolean | null;
+  ico: string | null;
+  description: string | null;
+  photo: File | null;
+  subCategories: string[] | null;
+  categoryTags: string[] | null;
+  products: string[] | null;
+}

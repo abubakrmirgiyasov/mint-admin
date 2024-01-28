@@ -3,11 +3,11 @@ import {CategoriesComponent} from "@pages/catalog/categories/categories.componen
 import {CatalogRoutingModule} from "@pages/catalog/catalog.routing-module";
 import {SearchBarModule} from "@shared/kit/search-bar/search-bar.module";
 import {
-  TuiButtonModule,
-  TuiDataListModule,
-  TuiHintModule, TuiLabelModule,
-  TuiLoaderModule,
-  TuiTextfieldControllerModule, TuiTooltipModule
+    TuiButtonModule,
+    TuiDataListModule,
+    TuiHintModule, TuiLabelModule,
+    TuiLoaderModule, TuiScrollbarModule,
+    TuiTextfieldControllerModule, TuiTooltipModule
 } from "@taiga-ui/core";
 import {CommonModule} from "@angular/common";
 import {NewCategoryComponent} from "@pages/catalog/categories/new-category/new-category.component";
@@ -20,6 +20,7 @@ import {
 } from "@taiga-ui/kit";
 import {TuiLetModule} from "@taiga-ui/cdk";
 import {ReactiveFormsModule} from "@angular/forms";
+import {TuiTableModule} from '@taiga-ui/addon-table';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     TuiLabelModule,
     TuiTextareaModule,
     TuiInputFilesModule,
+    TuiScrollbarModule,
+    TuiTableModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

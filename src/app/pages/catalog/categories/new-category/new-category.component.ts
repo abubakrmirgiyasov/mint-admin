@@ -3,11 +3,10 @@ import {customColors} from "@core/helpers/constants/layout.constants";
 import {CategoriesService} from "@pages/catalog/categories/categories.service";
 import {BehaviorSubject, combineLatest, filter, map, Observable, share, startWith, Subject, switchMap} from "rxjs";
 import {DefaultLinkModel} from "@core/models/catalog/categories/link.model";
-import {combineReload} from "@shared/utils/rxjs";
 import {tuiIsFalsy, tuiIsPresent} from "@taiga-ui/cdk";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CategoryActionModel} from "@core/models/catalog/categories/category.action.model";
-import {HttpErrorResponse} from "@angular/common/http";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-new-category',
@@ -17,6 +16,10 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class NewCategoryComponent {
   activeIndex = 0;
+  photo: File | null = null;
+  imageURL: string | ArrayBuffer | null = null;
+
+  saveLoader = false;
 
   refresh$ = new Subject<void>();
   search$ = new BehaviorSubject<string>('');
@@ -64,15 +67,19 @@ export class NewCategoryComponent {
   }
 
   onCategoryPhotoChange(photo: File): void {
-    console.log("Change", photo)
+    this.photo = photo;
+
+    const reader = new FileReader();
+    reader.onload = e => this.imageURL = reader.result;
+    reader.readAsDataURL(photo);
   }
 
   onCategoryPhotoReject(photo: any): void {
     console.log("Reject", photo)
   }
 
-  onCategoryPhotoRemoved(photo: any): void {
-    console.log("Remove", photo)
+  onCategoryPhotoRemoved(): void {
+    this.photo = null;
   }
 
   onSave(): void {
@@ -80,6 +87,51 @@ export class NewCategoryComponent {
   }
 
   onSaveAndContinue(): void {
+    if (!this.generalFormGroup.valid) {
+      return;
+    }
 
+    const formData = new FormData();
+
+    if (this.generalFormGroup.value.name)
+      formData.append("name", this.generalFormGroup.value.name);
+
+    if (this.generalFormGroup.value.defaultLink)
+      formData.append("defaultLink", this.generalFormGroup.value.defaultLink);
+
+    if (this.generalFormGroup.value.badgeText)
+      formData.append("badgeText", this.generalFormGroup.value.badgeText);
+
+    if (this.generalFormGroup.value.badgeStyle)
+      formData.append("badgeStyle", this.generalFormGroup.value.badgeStyle);
+
+    if (this.generalFormGroup.value.description)
+      formData.append("description", this.generalFormGroup.value.description);
+
+    if (this.generalFormGroup.value.ico)
+      formData.append("ico", this.generalFormGroup.value.ico);
+
+    if (this.generalFormGroup.value.displayOrder)
+      formData.append("displayOrder", this.generalFormGroup.value.displayOrder.toString());
+
+    if (this.generalFormGroup.value.isPublished)
+      formData.append("isPublished", this.generalFormGroup.value.isPublished.toString());
+
+    if (this.generalFormGroup.value.showOnHomePage)
+      formData.append("showOnHomePage", this.generalFormGroup.value.showOnHomePage.toString());
+
+    if (this.photo) {
+      formData.append("photo", this.photo);
+      formData.append("folder", "category");
+    }
+
+    this.categoriesService.createNewCategory(formData).subscribe({
+      next(e){
+        console.log(e)
+      },
+      error(e){
+        console.log(e)
+      }
+    });
   }
 }

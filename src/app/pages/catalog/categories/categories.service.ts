@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {DefaultLinkModel} from "@core/models/catalog/categories/link.model";
 import {CategoryModel} from "@core/models/catalog/categories/category.model";
+import {CategoryFormValueModel} from "@core/models/catalog/categories/category.action.model";
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,9 @@ export class CategoriesService {
         params: { search: search }
         }
       );
+  }
+
+  createNewCategory(value: any): Observable<any> {
+    return this.http.post('/api/categories/create', value);
   }
 }
