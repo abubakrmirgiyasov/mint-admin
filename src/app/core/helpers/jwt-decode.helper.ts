@@ -8,9 +8,21 @@ const getAccessToken = (): string => {
   if (token)
     return token;
   else
-    document.location.replace(`/auth/sign-in?returnUrl=${window.location.href}`);
+    // document.location.replace(`/auth/sign-in?returnUrl=${window.location.href}`);
 
   return  "";
+}
+
+const setAccessToken = (token: string): void => {
+  localStorage.setItem(ACCESS_TOKEN, token);
+}
+
+const removeAccessToken = (): void => {
+  localStorage.removeItem(ACCESS_TOKEN);
+}
+
+const unauthorizedResult = (): void => {
+  // document.location.replace(`/auth/sign-in?returnUrl=${window.location.href}`);
 }
 
 const getJwtUser = (): JwtUser => {
@@ -18,10 +30,20 @@ const getJwtUser = (): JwtUser => {
     const token = getAccessToken();
     return jwtDecode<JwtUser>(token);
   } catch (e: any) {
-    document.location.replace(`/auth/sign-in?returnUrl=${window.location.href}`);
-    console.log(e)
-    return {avatar: "", email: "", exp: 0, fullName: "", iat: 0, id: "", phone: "", role: ""};
+    console.log("jwt-decode.helper.30", e);
+
+    // document.location.replace(`/auth/sign-in?returnUrl=${window.location.href}`);
+    return {
+      id: "",
+      avatar: "",
+      email: "",
+      exp: 0,
+      fullName: "",
+      iat: 0,
+      phone: "",
+      'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': "",
+    };
   }
 }
 
-export { getJwtUser };
+export { getJwtUser, unauthorizedResult, getAccessToken, setAccessToken, removeAccessToken };

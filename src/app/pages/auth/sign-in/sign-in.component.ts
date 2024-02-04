@@ -7,6 +7,7 @@ import {finalize, Observable} from "rxjs";
 import {TuiCountryIsoCode} from '@taiga-ui/i18n';
 import {SignInService} from "@pages/auth/sign-in/sign-in.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {setAccessToken} from "@core/helpers/jwt-decode.helper";
 
 interface ISignInForm {
   login: FormControl<string>;
@@ -23,7 +24,6 @@ interface ISignInForm {
 export class SignInComponent {
   private readonly _returnUrl: string | null;
 
-  users$!: Observable<string[]>;
   formGroup!: FormGroup<ISignInForm>;
   error: string | null = null;
   isAuthInProcess = false;
@@ -89,7 +89,7 @@ export class SignInComponent {
       )
       .subscribe({
         next: (r) => {
-          localStorage.setItem("access_token", r.token);
+          setAccessToken(r.token);
           this.router.navigateByUrl(this._returnUrl ?? '/');
         },
         error: (e: HttpErrorResponse) => {

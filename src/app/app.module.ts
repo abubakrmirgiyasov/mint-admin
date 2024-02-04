@@ -17,6 +17,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {APP_PROVIDERS} from "./app.providers";
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -52,7 +53,8 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   declarations: [
     AppComponent,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: APP_PROVIDERS,
 })
 
 export class AppModule { }

@@ -4,7 +4,7 @@ export interface JwtUser {
   email: string;
   phone: string;
   fullName: string;
-  role: string;
+  'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': string;
   exp: number;
   iat: number;
 }

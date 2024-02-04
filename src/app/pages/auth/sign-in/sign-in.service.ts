@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ACCESS_TOKEN} from "@core/helpers/constants/storage.constants";
+import {getAccessToken} from "@core/helpers/jwt-decode.helper";
 
 interface ISignInResponse {
   token: string;
@@ -21,6 +22,6 @@ export class SignInService {
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem(ACCESS_TOKEN);
+    return !!getAccessToken();
   }
 }
