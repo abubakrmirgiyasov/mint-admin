@@ -82,11 +82,11 @@ export class NewCategoryComponent {
     this.photo = null;
   }
 
-  onSave(): void {
+  onSaveAndContinue(): void {
     console.log(this.generalFormGroup)
   }
 
-  onSaveAndContinue(): void {
+  onSave(): void {
     if (!this.generalFormGroup.valid) {
       return;
     }
@@ -122,7 +122,7 @@ export class NewCategoryComponent {
 
     if (this.photo) {
       formData.append("photo", this.photo);
-      formData.append("folder", "category");
+      formData.append("folder", "categories");
     }
 
     this.categoriesService.createNewCategory(formData).subscribe({

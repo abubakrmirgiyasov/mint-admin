@@ -41,7 +41,7 @@ const getJwtUser = (): JwtUser => {
       fullName: "",
       iat: 0,
       phone: "",
-      'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': "",
+      role: "",
     };
   }
 }

@@ -45,7 +45,7 @@ export class AuthGuard implements CanActivate {
 
   private roleMatch(allowedRoles: string[]): boolean {
     let isMatch = false;
-    const roles = getJwtUser()['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'].split(',');
+    const roles = getJwtUser().role.split(',');
 
     console.log(roles, allowedRoles);
 
