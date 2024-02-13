@@ -312,6 +312,14 @@ h1, .h1 {
   border-radius: 10px;
 }
 
+.btlr-1 {
+  border-top-left-radius: var(--tui-radius-s);
+}
+
+.btrr-1 {
+  border-top-right-radius: var(--tui-radius-s);
+}
+
 .dropdown {
   position: relative;
 }
