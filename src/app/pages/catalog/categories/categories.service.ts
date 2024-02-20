@@ -1,9 +1,8 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {DefaultLinkModel} from "@core/models/catalog/categories/link.model";
-import {CategoryModel} from "@core/models/catalog/categories/category.model";
-import {CategoryFormValueModel} from "@core/models/catalog/categories/category.action.model";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+
+import { CategoryModel, DefaultLinkModel, PaginatedResultModel } from "@core/models";
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +12,13 @@ export class CategoriesService {
     private readonly http: HttpClient
   ) { }
 
-  protected getCategories(): void { // Observable<CategoryModel>
-
+  getCategories(search: string, pageIndex: number, pageSize: number)
+    : Observable<PaginatedResultModel<CategoryModel>> {
+    return this.http.get<PaginatedResultModel<CategoryModel>>('/api/categories', {
+      params: {
+        search, pageIndex, pageSize
+      }
+    });
   }
 
   getDefaultLinks(search: any): Observable<DefaultLinkModel[]> {

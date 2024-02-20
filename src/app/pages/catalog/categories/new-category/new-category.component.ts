@@ -7,6 +7,7 @@ import {tuiIsFalsy, tuiIsPresent} from "@taiga-ui/cdk";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CategoryActionModel} from "@core/models/catalog/categories/category.action.model";
 import {formatDate} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-category',
@@ -31,7 +32,8 @@ export class NewCategoryComponent {
   readonly generalFormGroup: FormGroup<CategoryActionModel>;
 
   constructor(
-    private readonly categoriesService: CategoriesService
+    private readonly categoriesService: CategoriesService,
+    private readonly router: Router
   ) {
     this.generalFormGroup = new FormGroup<CategoryActionModel>({
       name: new FormControl("", { nonNullable: true, validators: [Validators.required, Validators.maxLength(100), Validators.minLength(3)] }),
@@ -126,10 +128,10 @@ export class NewCategoryComponent {
     }
 
     this.categoriesService.createNewCategory(formData).subscribe({
-      next(e){
-        console.log(e)
+      next: () => {
+        this.router.navigate(['catalog/categories']);
       },
-      error(e){
+      error: (e) => {
         console.log(e)
       }
     });

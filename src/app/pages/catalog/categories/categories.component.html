@@ -52,22 +52,37 @@
     </a>
   </div>
 
-  <tui-loader class="loader" [overlay]="true" [showLoader]="false">
+  <tui-loader class="loader" [overlay]="true" [showLoader]="!!(loading$ | async)">
     <tui-scrollbar>
-      <table tuiTable class="table" [columns]="columns">
-        <thead>
-        <tr tuiThGroup>
-          <th class="btlr-1" tuiTh *tuiHead="'displayOrder'" [sticky]="false">Отобразить в порядке</th>
-          <th tuiTh *tuiHead="'photo'" [sticky]="false">Изоброжение</th>
-          <th tuiTh *tuiHead="'name'" [sticky]="false">Название</th>
-          <th tuiTh *tuiHead="'ico'" [sticky]="false">Иконка</th>
-          <th tuiTh *tuiHead="'badgeText'" [sticky]="false">Значок</th>
-          <th tuiTh *tuiHead="'defaultLink'" [sticky]="false">Путь</th>
-          <th tuiTh *tuiHead="'subCategories'" [sticky]="false">Под категории</th>
-          <th class="btrr-1" tuiTh *tuiHead="'actions'" [sticky]="false"></th>
-        </tr>
-        </thead>
-      </table>
+      @if (data$ | async; as data) {
+        <table tuiTable class="table" [columns]="columns">
+          <thead>
+          <tr tuiThGroup>
+            <th class="btlr-1" tuiTh *tuiHead="'displayOrder'" [sticky]="false" [sorter]="null">Отобразить в порядке</th>
+            <th tuiTh *tuiHead="'photo'" [sticky]="false" [sorter]="null">Изоброжение</th>
+            <th tuiTh *tuiHead="'name'" [sticky]="false" [sorter]="null">Название</th>
+            <th tuiTh *tuiHead="'ico'" [sticky]="false" [sorter]="null">Иконка</th>
+            <th tuiTh *tuiHead="'badgeText'" [sticky]="false" [sorter]="null">Значок</th>
+            <th tuiTh *tuiHead="'defaultLink'" [sticky]="false" [sorter]="null">Путь</th>
+            <th class="btrr-1" tuiTh *tuiHead="'actions'" [sticky]="false" [sorter]="null"></th>
+          </tr>
+          </thead>
+          <tbody tuiTbody [data]="data">
+            @for (item of data; track item.id) {
+              <tr tuiTr class="row">
+                <td tuiTd *tuiCell="'displayOrder'">{{ item.displayOrder }}</td>
+                <td tuiTd *tuiCell="'photo'"><div><img [src]="item.photo" [alt]="item.name" class="" /></div></td>
+                <td tuiTd *tuiCell="'name'">{{ item.name }}</td>
+                <td tuiTd *tuiCell="'ico'">{{ item.ico }}</td>
+                <td tuiTd *tuiCell="'badgeText'"><span [class]="item.badgeStyle">{{ item.badgeText }}</span></td>
+                <td tuiTd *tuiCell="'defaultLink'">{{ item.defaultLink }}</td>
+                <td tuiTd *tuiCell="'defaultLink'">{{ item.displayOrder }}</td>
+                <td tuiTd *tuiCell="'defaultLink'">{{ item.displayOrder }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
     </tui-scrollbar>
   </tui-loader>
 </tui-island>
