@@ -1,26 +1,28 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from "@angular/core";
-import {CategoriesComponent} from "@pages/catalog/categories/categories.component";
-import {CatalogRoutingModule} from "@pages/catalog/catalog.routing-module";
-import {SearchBarModule} from "@shared/kit/search-bar/search-bar.module";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule } from "@angular/forms";
+
+import { TuiTableModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from "@taiga-ui/cdk";
 import {
-    TuiButtonModule,
-    TuiDataListModule,
-    TuiHintModule, TuiLabelModule,
-    TuiLoaderModule, TuiScrollbarModule,
-    TuiTextfieldControllerModule, TuiTooltipModule
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiHintModule, TuiLabelModule,
+  TuiLoaderModule, TuiScrollbarModule,
+  TuiTextfieldControllerModule, TuiTooltipModule
 } from "@taiga-ui/core";
-import {CommonModule} from "@angular/common";
-import {NewCategoryComponent} from "@pages/catalog/categories/new-category/new-category.component";
 import {
   TuiComboBoxModule,
   TuiDataListWrapperModule, TuiInputFilesModule,
   TuiInputModule, TuiInputNumberModule,
-  TuiIslandModule,
+  TuiIslandModule, TuiPaginationModule,
   TuiTabsModule, TuiTextareaModule, TuiToggleModule
 } from "@taiga-ui/kit";
-import {TuiLetModule} from "@taiga-ui/cdk";
-import {ReactiveFormsModule} from "@angular/forms";
-import {TuiTableModule} from '@taiga-ui/addon-table';
+
+import { CategoriesComponent } from "@pages/catalog/categories";
+import { SearchBarModule } from "@shared/kit";
+import { CatalogRoutingModule } from "@pages/catalog/catalog.routing-module";
+import { NewCategoryComponent } from "@pages/catalog/categories";
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import {TuiTableModule} from '@taiga-ui/addon-table';
     TuiInputFilesModule,
     TuiScrollbarModule,
     TuiTableModule,
+    TuiPaginationModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

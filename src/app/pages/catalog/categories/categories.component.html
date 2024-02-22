@@ -2,52 +2,18 @@
   <div class="position-relative">
     <app-search-bar (valueChange)="applySearch($event)" #search></app-search-bar>
 
-    <button
-      tuiIconButton
-      appearance="custom"
-      icon="tuiIconSearchLarge"
-      shape="rounded"
-      type="button"
-      size="m"
-      class="search-open"
-      [class._opened]="search.isSearchShown$ | async"
-      (click)="search.open()"
-    ></button>
+    <button tuiIconButton appearance="custom" icon="tuiIconSearchLarge" shape="rounded" type="button" size="m"
+      class="search-open" [class._opened]="search.isSearchShown$ | async" (click)="search.open()"></button>
 
-    <button
-      tuiIconButton
-      icon="tuiIconRefreshCwLarge"
-      shape="rounded"
-      type="button"
-      appearance="custom"
-      size="m"
-      class="refresh"
-      [class._opened]="search.isSearchShown$ | async"
-      (click)="refresh()"
-    ></button>
+    <button tuiIconButton icon="tuiIconRefreshCwLarge" shape="rounded" type="button" appearance="custom" size="m"
+      class="refresh" [class._opened]="search.isSearchShown$ | async" (click)="refresh()"></button>
   </div>
 
   <div class="filter-toolbar">
-    <button
-      tuiIconButton
-      icon="tuiIconSettings"
-      shape="rounded"
-      appearance="custom"
-      size="m"
-      class="settings"
-      tuiHint="Настройки"
-      tuiHintDirection="top"
-      tuiHintDescribe
-    ></button>
+    <button tuiIconButton icon="tuiIconSettings" shape="rounded" appearance="custom" size="m" class="settings"
+      tuiHint="Настройки" tuiHintDirection="top" tuiHintDescribe></button>
 
-    <a
-      tuiButton
-      size="m"
-      appearance="custom"
-      icon="tuiIconPlus"
-      routerLink="new"
-      class="add-new"
-    >
+    <a tuiButton size="m" appearance="custom" icon="tuiIconPlus" routerLink="new" class="add-new">
       Добавить новый...
     </a>
   </div>
@@ -57,30 +23,50 @@
       @if (data$ | async; as data) {
         <table tuiTable class="table" [columns]="columns">
           <thead>
-          <tr tuiThGroup>
-            <th class="btlr-1" tuiTh *tuiHead="'displayOrder'" [sticky]="false" [sorter]="null">Отобразить в порядке</th>
-            <th tuiTh *tuiHead="'photo'" [sticky]="false" [sorter]="null">Изоброжение</th>
-            <th tuiTh *tuiHead="'name'" [sticky]="false" [sorter]="null">Название</th>
-            <th tuiTh *tuiHead="'ico'" [sticky]="false" [sorter]="null">Иконка</th>
-            <th tuiTh *tuiHead="'badgeText'" [sticky]="false" [sorter]="null">Значок</th>
-            <th tuiTh *tuiHead="'defaultLink'" [sticky]="false" [sorter]="null">Путь</th>
-            <th class="btrr-1" tuiTh *tuiHead="'actions'" [sticky]="false" [sorter]="null"></th>
-          </tr>
+            <tr tuiThGroup>
+              <th class="btlr-1" tuiTh *tuiHead="'displayOrder'" [sticky]="false" [sorter]="null">Отобразить в порядке</th>
+              <th tuiTh *tuiHead="'photo'" [sticky]="false" [sorter]="null">Изоброжение</th>
+              <th tuiTh *tuiHead="'name'" [sticky]="false" [sorter]="null">Название</th>
+              <th tuiTh *tuiHead="'ico'" [sticky]="false" [sorter]="null">Иконка</th>
+              <th tuiTh *tuiHead="'badgeText'" [sticky]="false" [sorter]="null">Значок</th>
+              <th tuiTh *tuiHead="'defaultLink'" [sticky]="false" [sorter]="null">Путь</th>
+              <th tuiTh *tuiHead="'subCategories'" [sticky]="false" [sorter]="null">Под категории</th>
+              <th class="btrr-1" tuiTh *tuiHead="'actions'" [sticky]="false" [sorter]="null"></th>
+            </tr>
           </thead>
           <tbody tuiTbody [data]="data">
-            @for (item of data; track item.id) {
-              <tr tuiTr class="row">
+            @for (item of data; track item.displayOrder) {
+              <tr tuiTr>
                 <td tuiTd *tuiCell="'displayOrder'">{{ item.displayOrder }}</td>
-                <td tuiTd *tuiCell="'photo'"><div><img [src]="item.photo" [alt]="item.name" class="" /></div></td>
+                <td tuiTd *tuiCell="'photo'">
+                  <div><img [src]="item.photo" [alt]="item.name" class="" /></div>
+                </td>
                 <td tuiTd *tuiCell="'name'">{{ item.name }}</td>
                 <td tuiTd *tuiCell="'ico'">{{ item.ico }}</td>
                 <td tuiTd *tuiCell="'badgeText'"><span [class]="item.badgeStyle">{{ item.badgeText }}</span></td>
                 <td tuiTd *tuiCell="'defaultLink'">{{ item.defaultLink }}</td>
-                <td tuiTd *tuiCell="'defaultLink'">{{ item.displayOrder }}</td>
-                <td tuiTd *tuiCell="'defaultLink'">{{ item.displayOrder }}</td>
+                <td tuiTd *tuiCell="'subCategories'">{{ item.subCategories }}</td>
+                <td tuiTd *tuiCell="'actions'">actions</td>
+              </tr>
+            } @empty {
+              <tr class="row_no-data">
+                <td [attr.colspan]="columns.length">Пустой список!</td>
               </tr>
             }
           </tbody>
+          <tfoot class="t-footer">
+            <tr>
+              <td [colSpan]="columns.length">
+                <tui-table-pagination 
+                  class="pagination"
+                  [total]="(total$ | async) || 0" 
+                  [size]="25"
+                  [items]="[25, 50, 100]" 
+                  (paginationChange)="onPaginationChange($event)"
+                ></tui-table-pagination>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       }
     </tui-scrollbar>
