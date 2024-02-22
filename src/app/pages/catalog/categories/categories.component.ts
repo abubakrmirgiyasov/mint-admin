@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-
-import { tuiIsFalsy, tuiIsPresent } from "@taiga-ui/cdk";
-
-import { CategoriesService } from "@pages/catalog/categories";
 import { BehaviorSubject, combineLatest, filter, map, Observable, share, startWith, Subject, switchMap } from "rxjs";
 
+import { tuiIsFalsy, tuiIsPresent } from "@taiga-ui/cdk";
+import { TuiTablePagination } from "@taiga-ui/addon-table";
+
 import { CategoryModel, PaginatedResultModel } from "@core/models";
+import { CategoriesService } from "@pages/catalog/categories";
 import { combineReload } from "@shared/utils/rxjs";
 
 @Component({
@@ -20,7 +20,6 @@ export class CategoriesComponent {
     'photo',
     'name',
     'ico',
-    'badgeStyle',
     'badgeText',
     'defaultLink',
     'subCategories',
@@ -41,7 +40,7 @@ export class CategoriesComponent {
   private readonly refresh$ = new Subject<void>();
 
   constructor(
-    private readonly categoriesService: CategoriesService
+    private readonly categoriesService: CategoriesService,
   ) {
     this.request$ = combineReload(
       combineLatest([
@@ -79,5 +78,10 @@ export class CategoriesComponent {
 
   refresh(): void {
 
+  }
+
+  onPaginationChange(pagination: any): void {
+    console.log("test");
+    // this.pagination$.next(pagination);
   }
 }

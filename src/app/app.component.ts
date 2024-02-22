@@ -1,16 +1,18 @@
-import {Component, HostBinding} from "@angular/core";
-import {ThemeService} from "@core/services/theme.service";
-import {delay, distinctUntilChanged, map, Observable, share, startWith} from "rxjs";
-import {TuiBrightness} from "@taiga-ui/core";
-import {LoadingBarService} from "@ngx-loading-bar/core";
+import { Component, HostBinding } from '@angular/core';
+import { delay, distinctUntilChanged, map, Observable, share, startWith } from 'rxjs';
+
+import { TuiBrightness } from '@taiga-ui/core';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+
+import { ThemeService } from '@core/services';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = "Mint";
+  title = 'Mint';
 
   loaderValue$: Observable<number>;
   night$ = this.night.pipe(
