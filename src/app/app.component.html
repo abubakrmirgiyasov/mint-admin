@@ -1,17 +1,26 @@
-<progress
-  [value]="value || 0"
-  [max]="100"
-  class="loader"
-  size="s"
-  tuiProgressBar
-  *ngIf="loaderValue$ | async as value"
-></progress>
+@if (loaderValue$ | async; as value) {
+  <progress
+    [value]="value || 0"
+    [max]="100"
+    class="loader"
+    size="s"
+    tuiProgressBar
+  ></progress>
+}
 
 <ng-container *tuiLet="night$ | async as isNightMode">
-  <tui-theme-night *ngIf="isNightMode"></tui-theme-night>
+
+  @if (isNightMode) {
+    <tui-theme-night></tui-theme-night>
+  }
+
   <tui-root [tuiMode]="isNightMode ? 'onDark' : 'onLight'">
     <tui-loader [overlay]="true" [showLoader]="false" size="xl">
       <router-outlet></router-outlet>
     </tui-loader>
   </tui-root>
 </ng-container>
+
+@if (isDev) {
+  <div class="env-banner">DEV</div>
+}

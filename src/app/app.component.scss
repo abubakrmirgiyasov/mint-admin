@@ -1,1 +1,25 @@
 @import '@taiga-ui/core/styles/taiga-ui-local.scss';
+
+.loader {
+  @include shadow(6);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000000;
+  color: var(--tui-success-fill);
+}
+
+.env-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: rotate(-45deg) translate(-25%, -25%);
+  color: white;
+  background: darkred;
+  width: 80px;
+  text-align: center;
+  pointer-events: none;
+  box-sizing: border-box;
+}

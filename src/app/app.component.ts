@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding, isDevMode } from '@angular/core';
 import { delay, distinctUntilChanged, map, Observable, share, startWith } from 'rxjs';
 
 import { TuiBrightness } from '@taiga-ui/core';
@@ -22,11 +22,15 @@ export class AppComponent {
     share()
   );
 
+  readonly isDev: boolean;
+
   constructor(
     private readonly loader: LoadingBarService,
     private readonly night: ThemeService
   ) {
     this.loaderValue$ = loader.value$.pipe(delay(0));
+
+    this.isDev = isDevMode();
   }
 
   @HostBinding('attr.data-mode')
