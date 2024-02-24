@@ -1,21 +1,15 @@
-import {Injectable} from "@angular/core";
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree
-} from '@angular/router';
-import {SignInService} from "@pages/auth/sign-in/sign-in.service";
-import {Observable} from "rxjs";
-import {getJwtUser} from "@core/helpers/jwt-decode.helper";
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { SignInService } from '@pages/auth/sign-in/sign-in.service';
+import { Observable } from 'rxjs';
+import { getJwtUser } from '@core/helpers/jwt-decode.helper';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
   constructor(
-    private readonly router: Router,
+    private readonly router: Router, 
     private readonly signInService: SignInService
   ) { }
 
@@ -26,7 +20,7 @@ export class AuthGuard implements CanActivate {
     if (this.signInService.isAuthenticated()) {
       const roles = route.data['permittedRoles'] as Array<string>;
 
-      console.log("array string", route.data['permittedRoles']);
+      console.log('array string', route.data);
 
       if (roles) {
         if (!this.roleMatch(roles)) {
@@ -49,13 +43,13 @@ export class AuthGuard implements CanActivate {
 
     console.log(roles, allowedRoles);
 
-    allowedRoles.forEach(allowedRole => {
-      roles.forEach(role => {
-       if (allowedRole === role) {
-         isMatch = true;
-       }
+    allowedRoles.forEach((allowedRole) => {
+      roles.forEach((role) => {
+        if (allowedRole === role) {
+          isMatch = true;
+        }
 
-       return isMatch
+        return isMatch;
       });
     });
 

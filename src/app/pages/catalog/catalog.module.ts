@@ -7,6 +7,7 @@ import { TuiLetModule } from "@taiga-ui/cdk";
 import {
   TuiButtonModule,
   TuiDataListModule,
+  TuiDropdownModule,
   TuiHintModule, TuiLabelModule,
   TuiLoaderModule, TuiScrollbarModule,
   TuiTextfieldControllerModule, TuiTooltipModule
@@ -21,13 +22,15 @@ import {
 
 import { CategoriesComponent } from "@pages/catalog/categories";
 import { SearchBarModule } from "@shared/kit";
-import { CatalogRoutingModule } from "@pages/catalog/catalog.routing-module";
+import { HighlighterDirectiveModule, PermittedRoleDirectiveModule } from "@shared/cdk";
+
+import { CatalogRoutingModule } from "@pages/catalog/catalog-routing.module";
 import { NewCategoryComponent } from "@pages/catalog/categories";
 
 @NgModule({
   declarations: [
     CategoriesComponent,
-    NewCategoryComponent
+    NewCategoryComponent,
   ],
   imports: [
     CommonModule,
@@ -55,6 +58,9 @@ import { NewCategoryComponent } from "@pages/catalog/categories";
     TuiScrollbarModule,
     TuiTableModule,
     TuiPaginationModule,
+    PermittedRoleDirectiveModule,
+    TuiDropdownModule,
+    // HighlighterDirectiveModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

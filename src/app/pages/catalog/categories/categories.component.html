@@ -2,20 +2,61 @@
   <div class="position-relative">
     <app-search-bar (valueChange)="applySearch($event)" #search></app-search-bar>
 
-    <button tuiIconButton appearance="custom" icon="tuiIconSearchLarge" shape="rounded" type="button" size="m"
-      class="search-open" [class._opened]="search.isSearchShown$ | async" (click)="search.open()"></button>
+    <button 
+      tuiIconButton 
+      appearance="custom" 
+      icon="tuiIconSearchLarge" 
+      shape="rounded" 
+      type="button" 
+      size="m"
+      class="search-open" 
+      [class._opened]="search.isSearchShown$ | async" 
+      (click)="search.open()"
+    ></button>
 
-    <button tuiIconButton icon="tuiIconRefreshCwLarge" shape="rounded" type="button" appearance="custom" size="m"
-      class="refresh" [class._opened]="search.isSearchShown$ | async" (click)="refresh()"></button>
+    <button 
+      tuiIconButton 
+      icon="tuiIconRefreshCwLarge" 
+      shape="rounded" 
+      type="button" 
+      appearance="custom" 
+      size="m"
+      class="refresh" 
+      [class._opened]="search.isSearchShown$ | async" 
+      (click)="refresh()"
+    ></button>
   </div>
 
   <div class="filter-toolbar">
-    <button tuiIconButton icon="tuiIconSettings" shape="rounded" appearance="custom" size="m" class="settings"
-      tuiHint="Настройки" tuiHintDirection="top" tuiHintDescribe></button>
+    <button 
+      tuiIconButton 
+      icon="tuiIconSettings" 
+      shape="rounded" 
+      appearance="custom" 
+      size="m" 
+      class="settings"
+      tuiHint="Настройки" 
+      tuiHintDirection="top" 
+      tuiHintDescribe
+    ></button>
 
-    <a tuiButton size="m" appearance="custom" icon="tuiIconPlus" routerLink="new" class="add-new">
-      Добавить новый...
-    </a>
+    <div 
+      [roles]="['admin']"
+      (showElem)="onShowButton($event)"
+    >
+      @if (isNewCategoryVisible) {
+        <a 
+          tuiButton 
+          size="m" 
+          class="add-new"
+          routerLink="new" 
+          icon="tuiIconPlus" 
+          appearance="custom"
+        >
+          Добавить новый...
+        </a>
+      }
+    </div>
   </div>
 
   <tui-loader class="loader" [overlay]="true" [showLoader]="!!(loading$ | async)">
@@ -37,16 +78,58 @@
           <tbody tuiTbody [data]="data">
             @for (item of data; track item.displayOrder) {
               <tr tuiTr>
-                <td tuiTd *tuiCell="'displayOrder'">{{ item.displayOrder }}</td>
-                <td tuiTd *tuiCell="'photo'">
+                <td tuiTd *tuiCell="'displayOrder'" (click)="expanded.toggle(item)">{{ item.displayOrder }}</td>
+                <td tuiTd *tuiCell="'photo'" (click)="expanded.toggle(item)">
                   <div><img [src]="item.photo" [alt]="item.name" class="" /></div>
                 </td>
-                <td tuiTd *tuiCell="'name'">{{ item.name }}</td>
-                <td tuiTd *tuiCell="'ico'">{{ item.ico }}</td>
-                <td tuiTd *tuiCell="'badgeText'"><span [class]="item.badgeStyle">{{ item.badgeText }}</span></td>
-                <td tuiTd *tuiCell="'defaultLink'">{{ item.defaultLink }}</td>
-                <td tuiTd *tuiCell="'subCategories'">{{ item.subCategories }}</td>
-                <td tuiTd *tuiCell="'actions'">actions</td>
+                <td tuiTd *tuiCell="'name'" (click)="expanded.toggle(item)">{{ item.name }}</td>
+                <td tuiTd *tuiCell="'ico'" (click)="expanded.toggle(item)">{{ item.ico }}</td>
+                <td tuiTd *tuiCell="'badgeText'" (click)="expanded.toggle(item)"><span [class]="item.badgeStyle">{{ item.badgeText }}</span></td>
+                <td tuiTd *tuiCell="'defaultLink'" (click)="expanded.toggle(item)">{{ item.defaultLink }}</td>
+                <td tuiTd *tuiCell="'subCategories'" (click)="expanded.toggle(item)">{{ item.subCategories }}</td>
+                <td tuiTd *tuiCell="'actions'" (click)="expanded.toggle(item)">
+                  <tui-hosted-dropdown
+                    #dropdown
+                    [content]="dropdownContent"
+                  >
+                    <button 
+                      tuiIconButton
+                      appearance="icon"
+                      icon="tuiIconMoreVertical"
+                      [size]="'m'"
+                      type="button"
+                    ></button>
+                    <ng-template #dropdownContent let-close="close">
+                      <tui-data-list tuiDataListDropdownManager>
+                        <tui-opt-group>
+                          <button
+                            tuiOption
+                            class="command-option"
+
+                          >
+                            test
+                          </button>
+                          <button
+                            tuiOption
+                            class="command-option"
+
+                          >
+                            test
+                          </button>
+                        </tui-opt-group>
+                      </tui-data-list>
+                    </ng-template>
+                  </tui-hosted-dropdown>
+                </td>
+              </tr>
+              <tr class="details-row">
+                <td class="details-cell" [attr.colspan]="columns.length">
+                  @if (expanded.isSelected(item)) { 
+                    <div class="details-content" [@tuiHeightCollapse]="getAnimation(150)">
+                      test
+                    </div>
+                  }
+                </td>
               </tr>
             } @empty {
               <tr class="row_no-data">
@@ -59,7 +142,8 @@
               <td [colSpan]="columns.length">
                 <tui-table-pagination 
                   class="pagination"
-                  [total]="(total$ | async) || 0" 
+                  [total]="(total$ | async) || 0"
+                  [page]="0"
                   [size]="25"
                   [items]="[25, 50, 100]" 
                   (paginationChange)="onPaginationChange($event)"
