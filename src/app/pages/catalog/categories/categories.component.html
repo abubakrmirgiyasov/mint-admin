@@ -22,12 +22,16 @@
       appearance="custom" 
       size="m"
       class="refresh" 
-      [class._opened]="search.isSearchShown$ | async" 
+      [class._opened]="search.isSearchShown$ | async"
       (click)="refresh()"
     ></button>
   </div>
 
-  <div class="filter-toolbar">
+  <div 
+    class="filter-toolbar" 
+    [roles]="['admin']"
+    (showElem)="onShowButton($event)"
+  >
     <button 
       tuiIconButton 
       icon="tuiIconSettings" 
@@ -39,24 +43,19 @@
       tuiHintDirection="top" 
       tuiHintDescribe
     ></button>
-
-    <div 
-      [roles]="['admin']"
-      (showElem)="onShowButton($event)"
-    >
-      @if (isNewCategoryVisible) {
-        <a 
-          tuiButton 
-          size="m" 
-          class="add-new"
-          routerLink="new" 
-          icon="tuiIconPlus" 
-          appearance="custom"
-        >
-          Добавить новый...
-        </a>
-      }
-    </div>
+    
+    @if (isNewCategoryVisible) {
+      <a 
+        tuiButton 
+        size="m" 
+        class="add-new"
+        routerLink="new" 
+        icon="tuiIconPlus" 
+        appearance="custom"
+      >
+        Добавить новый...
+      </a>
+    }
   </div>
 
   <tui-loader class="loader" [overlay]="true" [showLoader]="!!(loading$ | async)">

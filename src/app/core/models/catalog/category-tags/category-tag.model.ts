@@ -1,8 +1,11 @@
-export interface CategoryTagModel {
+import { z } from "zod";
 
-}
+export const CategoryTagModelSchema = z.object({});
 
-export interface CategoryTagSampleModel {
-  value: string | null;
-  label: string | null;
-}
+export const CategoryTagSampleModelSchema = z.object({
+  value: z.string(),
+  label: z.string()
+});
+
+export type CategoryTagModel = z.infer<typeof CategoryTagModelSchema>;
+export type CategoryTagSampleModel = z.infer<typeof CategoryTagSampleModelSchema>;

@@ -1,0 +1,34 @@
+<div class="d-flex align-items-center gap-1">
+  <h2 [id]="context.id">{{ context.heading }}</h2>
+  <tui-tooltip
+      content="В выбранную категорию будет добавлена новая под категория."
+      direction="top"
+  ></tui-tooltip>
+</div>
+
+<section>
+  <ng-container *polymorpheusOutlet="$any(context.content) as content; context: context">
+    {{ content }}
+  </ng-container>
+</section>
+
+<p class="buttons">
+  <a
+    tuiButton
+    appearance="custom"
+    type="button"
+    class="tui-space_right-3 btn-success"
+    (click)="onClick(true)"
+    [disabled]="context.isValid"
+  >
+    {{ context.buttons[0] }}
+  </a>
+  <button
+    tuiButton
+    appearance="secondary"
+    type="button"
+    (click)="onClick(true)"
+  >
+    {{ context.buttons[1] }}
+  </button>
+</p>

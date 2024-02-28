@@ -174,17 +174,27 @@
                   </div>
                   <div class="tui-col_8">
                     <tui-combo-box
-                      *tuiLet="data$ | async as data"
-                      (searchChange)="onDefaultLinkSearch($event)"
                       formControlName="defaultLink"
                       [strict]="false"
+                      [valueContent]="content"
+                      [stringify]="stringifyPlacement"
+                      (searchChange)="onDefaultLinkSearch($event)"
                     >
                       Ссылка по умолчанию
                       <input
+                        tuiTextfield
                         id="defaultLink"
                         placeholder="Введите ссылку"
-                        tuiTextfield
+                        (input)="onDefaultLinkSearch(extractValueFromEvent($event))"
                       />
+                      <tui-data-list-wrapper
+                        *tuiDataList
+                        [itemContent]="content"
+                        [items]="data$ | async"
+                      ></tui-data-list-wrapper>
+                      <ng-template #content let-data>
+                        {{ data.defaultLink }}
+                      </ng-template>
                     </tui-combo-box>
                   </div>
                 </div>

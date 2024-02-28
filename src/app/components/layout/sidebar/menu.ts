@@ -43,37 +43,43 @@ export const MENU: MenuItem[] = [
       },
       {
         id: 7,
+        label: 'MENUITEMS.CATALOG.LIST.SUB_CATEGORIES',
+        link: '/catalog/sub-categories',
+        parentId: 5
+      },
+      {
+        id: 8,
         label: 'MENUITEMS.CATALOG.LIST.CHAT',
         link: '/chat',
         parentId: 5
       },
       {
-        id: 8,
+        id: 9,
         label: 'MENUITEMS.CATALOG.LIST.EMAIL',
         parentId: 5,
         subItems: [
           {
-            id: 9,
+            id: 10,
             label: 'MENUITEMS.CATALOG.LIST.MAILBOX',
             link: '/mailbox',
-            parentId: 8
+            parentId: 9
           },
           {
-            id: 10,
+            id: 11,
             label: 'MENUITEMS.CATALOG.LIST.MAILTEMPLATES',
-            parentId: 8,
+            parentId: 9,
             subItems: [
               {
-                id: 11,
+                id: 12,
                 label: 'MENUITEMS.CATALOG.LIST.BASICACTION',
                 link: '/email-basic',
-                parentId: 10
+                parentId: 11
               },
               {
-                id: 12,
+                id: 13,
                 label: 'MENUITEMS.CATALOG.LIST.ECOMMERCEACTION',
                 link: '/email-ecommerce',
-                parentId: 10
+                parentId: 11
               },
             ]
           }
@@ -82,7 +88,7 @@ export const MENU: MenuItem[] = [
     ]
   },
   {
-    id: 13,
+    id: 14,
     label: "TEST",
     link: '/',
     icon: 'tuiIconDroplet',

@@ -1,0 +1,98 @@
+<tui-island>
+  <div class="position-relative">
+    <app-search-bar (valueChange)="applySearch($event)" #search></app-search-bar>
+
+    <button
+      tuiIconButton
+      appearance="custom"
+      icon="tuiIconSearchLarge"
+      shape="rounded"
+      type="button"
+      size="m"
+      class="search-open"
+      [class._opened]="search.isSearchShown$ | async"
+      (click)="search.open()"
+    ></button>
+
+    <button
+      tuiIconButton
+      icon="tuiIconRefreshCwLarge"
+      shape="rounded"
+      type="button"
+      appearance="custom"
+      size="m"
+      class="refresh"
+      [class._opened]="search.isSearchShown$ | async"
+      (click)="refresh()"
+    ></button>
+  </div>
+  <div 
+    class="filter-toolbar"
+    [roles]="['admin']"
+    (showElem)="onShowButton($event)"  
+  >
+    <button
+      tuiIconButton
+      tuiHintDescribe
+      size="m"
+      shape="rounded"
+      class="settings"
+      appearance="custom"
+      icon="tuiIconSettings"
+      tuiHintDirection="top"
+      tuiHintContent="Настройки"
+    ></button>
+
+    @if (isNewSubCategoryVisible) {
+      <button type="button"
+        tuiButton
+        size="m"
+        class="add-new"
+        icon="tuiIconPlus"
+        appearance="custom"
+        (click)="showCategoriesClick(choose)"
+      >
+        Добавить новый...
+      </button> 
+      <ng-template #choose>
+        <tui-combo-box
+          tuiTextFieldSize="m"
+          [formControl]="categoryControl"
+          [valueContent]="content"
+        >
+        Категория
+        <input
+          tuiTextfield
+          placeholder="Введите название"
+        />
+        <tui-data-list-wrapper
+          *tuiDataList
+          [itemContent]="content"
+          [items]="categoriesRequest$ | async"
+        ></tui-data-list-wrapper>
+        </tui-combo-box>
+        <ng-template #content let-data>
+          {{ data.label }}
+        </ng-template>
+      </ng-template>
+    }
+  </div>
+
+  <tui-loader class="loader" [overlay]="true" [showLoader]="false">
+    <tui-scrollbar>
+      @if (true) {
+        <table tuiTable class="table" [columns]="columns">
+          <thead>
+            <tr tuiThGroup>
+              <th class="btlr-1" tuiTh [sticky]="false">Индекс</th>
+              <th tuiTh *tuiHead="'name'" [sticky]="false" [sorter]="null">Название</th>
+              <th tuiTh *tuiHead="'defaultLink'" [sticky]="false" [sorter]="null">Путь</th>
+              <th tuiTh *tuiHead="'category'" [sticky]="false" [sorter]="null">Категория</th>
+              <th class="btrr-1" tuiTh *tuiHead="'fullName'" [sticky]="false" [sorter]="null">Полное название</th>
+            </tr>
+          </thead>
+        </table>
+      }
+    </tui-scrollbar>
+  </tui-loader>
+</tui-island>

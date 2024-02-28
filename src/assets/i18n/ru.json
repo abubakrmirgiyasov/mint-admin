@@ -21,6 +21,7 @@
       "TEXT": "Каталог",
       "LIST": {
         "CATEGORIES": "Категории",
+        "SUB_CATEGORIES": "Под Категории",
         "CHAT": "Чат",
         "EMAIL": "Эл. адрес",
         "MAILBOX": "Почтовый ящик",

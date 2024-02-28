@@ -20,17 +20,19 @@ import {
   TuiTabsModule, TuiTextareaModule, TuiToggleModule
 } from "@taiga-ui/kit";
 
-import { CategoriesComponent } from "@pages/catalog/categories";
 import { SearchBarModule } from "@shared/kit";
 import { HighlighterDirectiveModule, PermittedRoleDirectiveModule } from "@shared/cdk";
 
 import { CatalogRoutingModule } from "@pages/catalog/catalog-routing.module";
-import { NewCategoryComponent } from "@pages/catalog/categories";
+import { NewCategoryComponent, CategoriesComponent } from "@pages/catalog/categories";
+import { NewSubCategoryComponent, SubCategoriesComponent } from "@pages/catalog/sub-categories";
 
 @NgModule({
   declarations: [
     CategoriesComponent,
     NewCategoryComponent,
+    SubCategoriesComponent,
+    NewSubCategoryComponent,
   ],
   imports: [
     CommonModule,

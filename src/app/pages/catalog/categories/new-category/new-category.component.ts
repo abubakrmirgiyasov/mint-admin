@@ -8,6 +8,7 @@ import { tuiIsFalsy, tuiIsPresent } from '@taiga-ui/cdk';
 import { DefaultLinkModel, CategoryActionModel } from '@core/models';
 import { customColors } from '@core/helpers/constants/layout.constants';
 import { CategoriesService } from '@pages/catalog/categories/categories.service';
+import { TuiAlertService } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-new-category',
@@ -31,7 +32,11 @@ export class NewCategoryComponent {
   readonly items = customColors;
   readonly generalFormGroup: FormGroup<CategoryActionModel>;
 
-  constructor(private readonly categoriesService: CategoriesService, private readonly router: Router) {
+  constructor(
+    private readonly categoriesService: CategoriesService, 
+    private readonly router: Router,
+    private readonly alerts: TuiAlertService
+  ) {
     this.generalFormGroup = new FormGroup<CategoryActionModel>({
       name: new FormControl('', {
         nonNullable: true,
@@ -95,6 +100,10 @@ export class NewCategoryComponent {
     this.search$.next(value ?? '');
   }
 
+  extractValueFromEvent(event: Event): string | null {
+    return (event.target as HTMLInputElement)?.value || null;
+  }
+
   onCategoryPhotoChange(photo: File): void {
     this.photo = photo;
 
@@ -109,6 +118,10 @@ export class NewCategoryComponent {
 
   onCategoryPhotoRemoved(): void {
     this.photo = null;
+  }
+
+  stringifyPlacement(item: DefaultLinkModel): string {
+    return item.defaultLink ?? "";
   }
 
   onSaveAndContinue(): void {
@@ -150,13 +163,9 @@ export class NewCategoryComponent {
       formData.append('folder', 'categories');
     }
 
-    this.categoriesService.createNewCategory(formData).subscribe({
-      next: () => {
-        this.router.navigate(['catalog/categories']);
-      },
-      error: (e) => {
-        console.log(e);
-      },
-    });
+    this.categoriesService.createNewCategory(formData)
+      .subscribe(() => {
+        this.alerts.open('Успешно Создано!', { status: 'success' }).subscribe();
+      });
   }
 }

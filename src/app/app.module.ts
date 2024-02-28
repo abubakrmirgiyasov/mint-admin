@@ -20,9 +20,10 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
+import { APP_PROVIDERS } from './app.providers';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { APP_PROVIDERS } from './app.providers';
+import { DialogsModule } from '@components/dialogs';
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -58,6 +59,8 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     TuiLetModule,
     TuiProgressModule,
     TuiLoaderModule,
+
+    DialogsModule,
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],

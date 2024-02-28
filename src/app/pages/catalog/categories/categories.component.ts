@@ -18,7 +18,7 @@ import { TuiDurationOptions, tuiHeightCollapse } from "@taiga-ui/core";
   animations: [tuiHeightCollapse],
 })
 export class CategoriesComponent {
-  columns = [
+  readonly columns = [
     'displayOrder',
     'photo',
     'name',
