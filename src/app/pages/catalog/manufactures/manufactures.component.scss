@@ -1,0 +1,67 @@
+.island {
+  position: relative;
+  display: grid;
+  // height: 100vh;
+  grid-template-rows: min-content min-content 1fr min-content;
+}
+
+._opened {
+  display: none;
+}
+
+.position-relative {
+  height: 55px;
+  margin: 0.5rem;
+}
+
+.settings,
+.search-open,
+.refresh {
+  transition: 0.35s ease-out all;
+
+  &:hover {
+    background-color: var(--mi-success);
+    transition: 0.35s ease-out all;
+  }
+}
+
+.option-with-icon {
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.add-new {
+  background-color: var(--mi-success);
+  transition: 0.35s ease-out all;
+
+  &:hover {
+    background-color: var(--tui-success-fill);
+    transition: 0.35s ease-out all;
+  }
+}
+
+.table {
+  margin: 0.5rem;
+  padding-right: 1rem;
+  width: 100%;
+
+  &_no-data td {
+    height: var(--tui-height-m);
+    text-align: center;
+    font: var(--tui-font-text-s);
+    border: 1px solid var(--tui-base-04);
+    border-top: none;
+  }
+}
+
+.pagination {
+  display: flex;
+  height: var(--tui-height-m);
+  border-top: 1px solid var(--tui-base-03);
+  margin: 0.5rem;
+  padding: 0.5rem;
+
+  tui-table-pagination {
+    flex: 1 1 auto;
+  }
+}

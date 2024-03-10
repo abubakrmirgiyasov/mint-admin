@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, Observable, Subject, combineLatest, map, share, startWith, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, share, startWith, switchMap } from 'rxjs';
 
-import { tuiIsFalsy } from '@taiga-ui/cdk';
+import { tuiIsFalsy, tuiIsPresent } from '@taiga-ui/cdk';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 
-import { CategorySampleModel, SubCategoryModel } from '@core/models';
+import { CategorySampleModel, PaginatedResultModel, SubCategoryModel } from '@core/models';
 import { combineReload } from '@shared/utils';
 import { SelectCategoryDialogService } from '@components/dialogs';
 import { CategoriesService } from '@pages/catalog/categories';
@@ -18,13 +18,22 @@ import { SubCategoriesService } from '@pages/catalog/sub-categories';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubCategoriesComponent {
-  readonly columns = ['name', 'defaultLink', 'category', 'fullName'];
+  readonly columns = [
+    'index', 
+    'name', 
+    'defaultLink', 
+    'category', 
+    'fullName',
+    'actions',
+  ];
 
-  isNewSubCategoryVisible = false;
+  protected isNewSubCategoryVisible = false;
 
   readonly categoryControl: FormControl;
 
-  readonly subCategoriesRequest$: Observable<SubCategoryModel[] | []>;
+  readonly subCategoriesRequest$: Observable<PaginatedResultModel<SubCategoryModel> | null>;
+  readonly subCategoriesData$: Observable<SubCategoryModel[]>;
+  readonly subCategoriesTotalCount$: Observable<number>;
 
   readonly categoriesRequest$: Observable<CategorySampleModel[] | []>;
   readonly categorySearch$ = new BehaviorSubject<string>('');
@@ -47,15 +56,27 @@ export class SubCategoriesComponent {
         [this.search$, this.pagination$]),
         this.refresh$
       ).pipe(
-        switchMap(([search]) => 
+        switchMap(([search, pagination]) => 
           this.subCategoriesService
-            .getSubCategories(search)
-            .pipe(startWith([]))
+            .getSubCategories(search, pagination.page, pagination.size)
+            .pipe(startWith(null))
         ),
         share()
       );
 
     this.loading$ = this.subCategoriesRequest$.pipe(map(tuiIsFalsy));
+
+    this.subCategoriesTotalCount$ = this.subCategoriesRequest$.pipe(
+      filter(tuiIsPresent),
+      map((x) => x.totalCount),
+      startWith(1)
+    );
+
+    this.subCategoriesData$ = this.subCategoriesRequest$.pipe(
+      filter(tuiIsPresent),
+      map((x) => x.items),
+      startWith([])
+    );
 
     this.categoriesRequest$ = combineLatest(this.categorySearch$).pipe(
       switchMap(([search]) => this.categoryService.getCommonCategories(search).pipe(startWith([]))),
@@ -71,6 +92,10 @@ export class SubCategoriesComponent {
     this.refresh$.next();
   }
 
+  onPaginationChange(pagination: any): void {
+    
+  }
+
   onShowButton(value: boolean): void {
     this.isNewSubCategoryVisible = value;
   }
@@ -81,8 +106,20 @@ export class SubCategoriesComponent {
         heading: 'Выберите категорию',
         buttons: ['Перейти', 'Отмена'],
         isValid: this.categoryControl.valid,
-        value: this.categoryControl.value
+        value: this.categoryControl
       })
       .subscribe();
+  }
+
+  onCategoryBoxSearch(value: string | null): void {
+    this.categorySearch$.next(value ?? "");
+  }
+
+  stringifyPlacement(item: CategorySampleModel): string {
+    return item.label ?? "";
+  }
+
+  extractValueFromEvent(event: Event): string | null {
+    return (event.target as HTMLInputElement)?.value || null;
   }
 }

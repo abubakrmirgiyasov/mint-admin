@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, Self } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Observable, takeUntil } from 'rxjs';
 
 import { TuiDialogCloseService } from '@taiga-ui/core';
@@ -24,6 +25,8 @@ export class SelectCategoryDialogComponent {
     close$
       .pipe(takeUntil(destroy$))
       .subscribe(() => this.context.$implicit.complete());
+
+      (this.context.value as FormControl).valueChanges.subscribe();
   }
 
   onClick(response: boolean): void {

@@ -29,6 +29,7 @@
             class="btn-success ms-2"
             [showLoader]="false"
             [disabled]="!generalFormGroup.valid"
+            (click)="onSaveSubCategoryClick()"
           >
             Сохранить
           </button>
@@ -59,7 +60,7 @@
         <div class="tab-items">
             @if (activeIndex == 0) {
               <div class="general-form">
-                <form [formGroup]="generalFormGroup">
+                <form [formGroup]="generalFormGroup" >
                   <div class="tui-row tui-row_sme">
                     <div class="tui-col_12 tui-space_bottom-8">
                       <div class="tui-row align-items-center">
@@ -130,25 +131,34 @@
                         </div>
                         <div class="tui-col_8">
                           <tui-combo-box
+                            *tuiLet="categoryByIdRequest$ | async as categories"
                             formControlName="categoryId"
                             [valueContent]="content"
                             [stringify]="stringifyPlacement"
-                            (searchChange)="onCategoryBoxSearch($event)"
                           >
                             Категория
                             <input
                               tuiTextfield
                               id="categoryId"
                               placeholder="Введите категорию"
-                              (input)="onCategoryBoxSearch(extractValueFromEvent($event))"
                             />
-                            <tui-data-list-wrapper
-                              *tuiDataList
-                              [itemContent]="content"
-                              [items]="categoryData$ | async"
-                            ></tui-data-list-wrapper>
                             <ng-template #content let-data>
                               {{ data.label }}
+                            </ng-template>
+                            <ng-template tuiDataList>
+                              @if (!!categories) {
+                                <tui-data-list loading>
+                                  @for (item of categories; track $index) {
+                                    <button tuiOption [value]="item">
+                                      {{ item.label }}
+                                    </button>
+                                  }
+                                </tui-data-list>
+                              } @else {
+                                <ng-template #loading>
+                                  <tui-loader class="tui-space_vertical-4"></tui-loader>
+                                </ng-template>
+                              }
                             </ng-template>
                           </tui-combo-box>
                         </div>

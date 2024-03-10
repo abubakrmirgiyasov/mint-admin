@@ -1,10 +1,12 @@
-import {NgModule} from "@angular/core";
-import {SearchBarComponent} from "@shared/kit/search-bar/search-bar.component";
-import {CommonModule} from "@angular/common";
-import {ReactiveFormsModule} from "@angular/forms";
-import {TuiInputModule} from "@taiga-ui/kit";
-import {TuiButtonModule, TuiModeModule, TuiTextfieldControllerModule} from "@taiga-ui/core";
-import {TuiAutoFocusModule} from "@taiga-ui/cdk";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { TuiButtonModule, TuiHintModule, TuiModeModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiAutoFocusModule } from '@taiga-ui/cdk';
+import { TuiInputModule } from '@taiga-ui/kit';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { SearchBarComponent } from '@shared/kit/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [SearchBarComponent],
@@ -16,7 +18,8 @@ import {TuiAutoFocusModule} from "@taiga-ui/cdk";
     TuiTextfieldControllerModule,
     TuiAutoFocusModule,
     TuiModeModule,
+    TuiHintModule,
   ],
-  exports: [SearchBarComponent]
+  exports: [SearchBarComponent],
 })
-export class SearchBarModule { }
+export class SearchBarModule {}

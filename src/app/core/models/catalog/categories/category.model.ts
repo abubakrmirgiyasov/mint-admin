@@ -13,7 +13,7 @@ export const CategoryModelSchema = z.object({
   photo: z.string().nullable(),
   subCategories: z.lazy(() => SubCategoryModelSchema.array()).default([]),
   categoryTags: z.lazy(() => CategoryTagSampleModelSchema.array()).default([]),
-  manufactureCategories: z.lazy(() => ManufactureModelSchema).default([]),
+  // manufactureCategories: z.lazy(() => ManufactureModelSchema).default([]),
 });
 
 export const CategorySampleModelSchema = z.object({

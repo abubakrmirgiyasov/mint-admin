@@ -1,8 +1,11 @@
-import {ChangeDetectionStrategy, Component, Input, Output} from "@angular/core";
-import {TuiDurationOptions, tuiFadeIn} from "@taiga-ui/core";
-import {FormControl} from "@angular/forms";
-import {debounceTime, distinctUntilChanged, map, Observable, startWith} from "rxjs";
-import {tuiPure} from "@taiga-ui/cdk";
+import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+
+import { debounceTime, distinctUntilChanged, map, Observable, startWith } from 'rxjs';
+
+import { tuiPure } from '@taiga-ui/cdk';
+import { TuiDurationOptions, tuiFadeIn } from '@taiga-ui/core';
+
 
 const DEBOUNCE_TIME = 500;
 
@@ -32,16 +35,13 @@ export class SearchBarComponent {
   constructor() {
     this.searchControl.disable();
 
-    this.valueChange = this.searchControl.valueChanges.pipe(
-      debounceTime(DEBOUNCE_TIME),
-      distinctUntilChanged()
-    );
+    this.valueChange = this.searchControl.valueChanges.pipe(debounceTime(DEBOUNCE_TIME), distinctUntilChanged());
 
     this.isSearchShown$ = this.searchControl.statusChanges.pipe(
       map((status) => status !== 'DISABLED'),
       distinctUntilChanged(),
       startWith(false)
-    )
+    );
   }
 
   open(): void {

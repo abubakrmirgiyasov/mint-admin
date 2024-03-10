@@ -1,0 +1,353 @@
+<tui-island>
+  <tui-loader
+    class="loader"
+    size="m"
+    textContent="Loading..."
+    [overlay]="true"
+    [showLoader]="false"
+    [inheritColor]="true"
+  >
+    <div class="tui-island__title d-flex justify-content-between">
+      <div class="title d-flex align-items-center tui-space_bottom-6">
+        <a
+          tuiButton
+          icon="tuiIconArrowLeft"
+          size="m"
+          appearance="secondary"
+          class="tui-space_right-3"
+          routerLink="/catalog/manufactures"
+        ></a>
+        <span>Назад в производители</span>
+      </div>
+      <div class="options">
+        <button
+          tuiButton
+          icon="tuiIconCheck"
+          appearance="custom"
+          size="m"
+          class="btn-success ms-2"
+          [showLoader]="false"
+          [disabled]="!manufactureGeneralForm.valid"
+          (click)="onSaveManufacture()"
+        >
+          Сохранить
+        </button>
+        <button
+          tuiButton
+          appearance="custom"
+          size="m"
+          class="btn-secondary"
+          [showLoader]="false"
+          [disabled]="!manufactureGeneralForm.valid"
+        >
+          Сохранить и редактировать
+        </button>
+      </div>
+    </div>
+
+    <section class="content">
+      <nav
+        tuiTabs
+        vertical="left"
+        class="left"
+        [(activeItemIndex)]="activeIndex"
+      >
+        <button tuiTab>General</button>
+        <button tuiTab>Contact Information</button>
+        <button tuiTab>Search engines (SEO)</button>
+        <button tuiTab>Products</button>
+      </nav>
+      <div class="tab-items">
+        @if (activeIndex == 0) {
+          <div class="general-form">
+            <form [formGroup]="manufactureGeneralForm">
+              <div class="tui-row tui-row_sme">
+                <div class="tui-col_12 tui-space_bottom-8">
+                  <div class="tui-row align-items-center">
+                    <div class="tui-col_4">
+                      <label for="displayOrder">
+                        Отобразить в порядке
+                        <tui-tooltip
+                          content="Задает порядок отоброжения. 1 представляет собой начало списка."
+                          describeId="displayOrder"
+                          direction="top"
+                        ></tui-tooltip>
+                      </label>
+                    </div>
+                    <div class="tui-col_8">
+                      <tui-input-number
+                        formControlName="displayOrder"
+                        decimal="never"
+                        class="b-form"
+                        [max]="100"
+                        [min]="0"
+                        [step]="1"
+                      >
+                        Отобразить в порядке
+                        <input 
+                          id="displayOrder"
+                          tuiTextfield
+                        />
+                      </tui-input-number>
+                    </div>
+                  </div>
+                </div>
+                <div class="tui-col_12 tui-space_bottom-8">
+                  <div class="tui-row align-items-center">
+                    <div class="tui-col_4">
+                      <label for="name">
+                        Название
+                        <tui-tooltip
+                          content="Название производителя."
+                          describeId="name"
+                          direction="top"
+                        ></tui-tooltip>
+                      </label>
+                    </div>
+                    <div class="tui-col_8">
+                      <tui-input formControlName="name">
+                        Название
+                        <input 
+                          id="name"
+                          tuiTextfield
+                        />
+                      </tui-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="tui-col_12 tui-space_bottom-8">
+                  <div class="tui-row align-items-center">
+                    <div class="tui-col_4">
+                      <label for="country">
+                        Страна
+                        <tui-tooltip
+                          content="Страна производителя."
+                          describeId="country"
+                          direction="top"
+                        ></tui-tooltip>
+                      </label>
+                    </div>
+                    <div class="tui-col_8">
+                      <tui-select
+                        formControlName="country"
+                        [tuiTextfieldLabelOutside]="true"
+                      >
+                        Страна
+                        <tui-data-list *tuiDataList>
+                          @for (country of countries; track $index) {
+                            <tui-opt-group>
+                              <button tuiOption [value]="country">
+                                {{ country }}
+                              </button>
+                            </tui-opt-group>
+                          }
+                        </tui-data-list>
+                      </tui-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="tui-col_12 tui-space_bottom-8">
+                  <div class="tui-row align-items-center">
+                    <div class="tui-col_4">
+                      <label for="website">
+                        Веб-сайт
+                        <tui-tooltip
+                          content="Оффициальный веб-сайт производителя."
+                          describeId="website"
+                          direction="top"
+                        ></tui-tooltip>
+                      </label>
+                    </div>
+                    <div class="tui-col_8">
+                      <tui-input
+                        formControlName="website"
+                      >
+                        Веб-сайт
+                        <input 
+                          id="website"
+                          tuiTextfield
+                          placeholder="example.com"
+                        />
+                      </tui-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="tui-col_12 tui-space_bottom-8">
+                  <div class="tui-row align-items-center">
+                    <div class="tui-col_4">
+                      <label for="fullAddress">
+                        Адрес
+                        <tui-tooltip
+                          content="Физический адрес производителя."
+                          describeId="fullAddress"
+                          direction="top"
+                        ></tui-tooltip>
+                      </label>
+                    </div>
+                    <div class="tui-col_8">
+                      <tui-textarea 
+                        formControlName="fullAddress"
+                        [expandable]="true"
+                        [maxLength]="100"  
+                      >
+                        Адрес
+                      </tui-textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="tui-col_12 tui-space_bottom-8">
+                  <div class="tui-row align-items-center">
+                    <div class="tui-col_4">
+                      <label for="description">
+                        Описание
+                        <tui-tooltip
+                          content="Описание для производителя."
+                          describeId="description"
+                          direction="top"
+                        ></tui-tooltip>
+                      </label>
+                    </div>
+                    <div class="tui-col_8">
+                      <tui-textarea 
+                        formControlName="description"
+                        [expandable]="true"
+                        [maxLength]="800"  
+                      >
+                        Описание
+                      </tui-textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="tui-col_12 tui-space_bottom-8">
+                  <div class="tui-row align-items-center">
+                    <div class="tui-col_4">
+                      <label>
+                        Изоброжение
+                        <tui-tooltip
+                          content="CHANGE ME."
+                          describeId="photo"
+                          direction="top"
+                        ></tui-tooltip>
+                      </label>
+                    </div>
+                    <div class="tui-col_8">
+                      <tui-input-files
+                        accept="image/*"
+                        formControlName="photo"
+                        [multiple]="false"
+                        (ngModelChange)="onManufacturePhotoChange($event)"
+                      ></tui-input-files>
+                      @if (!!photo) {
+                        <div class="photos d-flex align-items-center gap-lg-3">
+                          @if (isImageLoading) {
+                            Loading... {{ uploadProgress }}%
+                          } @else {
+                            <div class="photo">
+                              <img
+                                class="photo-det"
+                                [src]="imageURL"
+                                [height]="65"
+                              />
+                            </div>
+                          }
+                          <div class="photo-info d-flex align-items-center">
+                            <h4 class="mb-0">{{ photo.name }}</h4>
+                            <button
+                              tuiButton
+                              icon="tuiIconX"
+                              size="xs"
+                              appearance="flat"
+                              (click)="onManufacturePhotoRemoved()"
+                            ></button>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        } @else if (activeIndex == 1) {
+          <div class="general-form">
+            @for (form of contactGroupFormArray.controls; track $index) {
+              <form
+                tuiTextFieldSize="m"
+                [formGroup]="contactGroupForm"
+              >
+                <div class="tui-row tui-row_sme">
+                  <div class="tui-col_12 tui-space_bottom-8">
+                    <div class="tui-row align-items-center">
+                      <div class="tui-col_4">
+                        <tui-select 
+                          formControlName="type" 
+                          [valueContent]="stringifyType" 
+                          [readOnly]="readOnly"
+                        >
+                          Вид контакта
+                          <tui-data-list *tuiDataList>
+                            <tui-opt-group>
+                              <button tuiOption [value]="'Phone'">Тел.</button>
+                              <button tuiOption [value]="'Email'">Email</button>
+                            </tui-opt-group>
+                          </tui-data-list>
+                        </tui-select>
+                      </div>
+                      <div class="tui-col_6">
+                        @switch (contactGroupForm.value.type) {
+                          @case ('Тел.') {
+                            <tui-input-phone-international 
+                              formControlName="contactInformation" 
+                              [readOnly]="readOnly"
+                              [countries]="countriesCodes"
+                            >
+                              Телефон
+                            </tui-input-phone-international>
+                          }
+                          @case ('Email') {
+                            <tui-input 
+                              formControlName="contactInformation" 
+                              [readOnly]="readOnly"
+                            >
+                              Адрес электронной почты
+                            </tui-input>
+                          }
+                        }
+                      </div>
+                      <div class="tui-col_2">
+                        @if (!readOnly) {
+                          @if(!readOnly) {
+                            <button 
+                              tuiButton 
+                              appearance="outline" 
+                              size="m" 
+                              icon="tuiIconDelete"
+                              (click)="contactGroupFormArray.removeAt($index)"
+                            ></button>
+                          }
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            }
+            <div>
+              @if(!readOnly) {
+                <button 
+                  tuiButton
+                  appearance="outline" 
+                  size="m"
+                  icon="mat::add"
+                  (click)="createContactDetails()"
+                >
+                  Добавить новый контакт
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  </tui-loader>
+</tui-island>

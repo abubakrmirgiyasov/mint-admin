@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { BehaviorSubject, combineLatest, filter, map, Observable, share, startWith, Subject, switchMap } from "rxjs";
 import { SelectionModel } from '@angular/cdk/collections';
 
+import { TuiDurationOptions, tuiHeightCollapse } from "@taiga-ui/core";
 import { tuiIsFalsy, tuiIsPresent, tuiPure } from "@taiga-ui/cdk";
 import { TuiTablePagination } from "@taiga-ui/addon-table";
 
 import { CategoryModel, PaginatedResultModel } from "@core/models";
 import { CategoriesService } from "@pages/catalog/categories";
 import { combineReload } from "@shared/utils/rxjs";
-import { TuiDurationOptions, tuiHeightCollapse } from "@taiga-ui/core";
 
 @Component({
   selector: 'app-categories',
@@ -29,7 +29,7 @@ export class CategoriesComponent {
     'actions',
   ];
 
-  isNewCategoryVisible = false;
+  protected isNewCategoryVisible = false;
   isActionsClickOpened = false;
 
   expanded = new SelectionModel<CategoryModel>();
@@ -45,7 +45,7 @@ export class CategoriesComponent {
   private readonly refresh$ = new Subject<void>();
 
   constructor(
-    private readonly categoriesService: CategoriesService,
+    private readonly categoriesService: CategoriesService
   ) {
     this.request$ = combineReload(
       combineLatest([

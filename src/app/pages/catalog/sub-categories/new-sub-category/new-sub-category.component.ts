@@ -30,31 +30,13 @@ export class NewSubCategoryComponent {
   defaultLinkData$: Observable<DefaultLinkModel[]>;
   defaultLinkSearch$ = new BehaviorSubject<string>('');
 
+  categoryByIdRequest$: Observable<CategorySampleModel[]>;
+
   constructor(
     private readonly router: ActivatedRoute,
     private readonly categoriesService: CategoriesService,
     private readonly subCategoriesService: SubCategoriesService
   ) {
-    this.generalFormGroup = new FormGroup<SubCategoriesActionModel>({
-      displayOrder: new FormControl(0),
-      name: new FormControl('', {
-        nonNullable: true,
-        validators: [Validators.required, Validators.maxLength(100), Validators.minLength(3)]
-      }),
-      defaultLink: new FormControl('', {
-        nonNullable: true,
-        validators: [Validators.required, Validators.maxLength(60), Validators.minLength(3)]
-      }),
-      fullName: new FormControl('', {
-        nonNullable: false,
-        validators: [Validators.required, Validators.maxLength(400), Validators.minLength(3)]
-      }),
-      categoryId: new FormControl('', {
-        nonNullable: true,
-        validators: [Validators.required]
-      })
-    });
-
     this.categoryRequest$ = combineLatest([this.categorySearch$]).pipe(
       switchMap(([search]) => this.categoriesService.getCommonCategories(search)),
       share()
@@ -62,6 +44,11 @@ export class NewSubCategoryComponent {
 
     this.defaultLinkRequest$ = combineLatest([this.defaultLinkSearch$]).pipe(
       switchMap(([search]) => this.subCategoriesService.getDefaultLinks(search)),
+      share()
+    );
+
+    this.categoryByIdRequest$ = combineLatest([this.router.params]).pipe(
+      switchMap(([params]) => this.categoriesService.getCommonCategoryById(params['categoryId'])),
       share()
     );
 
@@ -77,7 +64,25 @@ export class NewSubCategoryComponent {
       startWith([])
     );
 
-    console.log(this.router.snapshot.params['categoryId']);
+    this.generalFormGroup = new FormGroup<SubCategoriesActionModel>({
+      displayOrder: new FormControl(0),
+      name: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.maxLength(100), Validators.minLength(3)]
+      }),
+      defaultLink: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.maxLength(60), Validators.minLength(3)]
+      }),
+      fullName: new FormControl('', {
+        nonNullable: false,
+        validators: [Validators.required, Validators.maxLength(400), Validators.minLength(3)]
+      }),
+      categoryId: new FormControl({ value: '', disabled: true }, {
+        nonNullable: true,
+        validators: [Validators.required],
+      })
+    });
   }
 
   onCategoryBoxSearch(value: string | null): void {
@@ -90,5 +95,15 @@ export class NewSubCategoryComponent {
 
   extractValueFromEvent(event: Event): string | null {
     return (event.target as HTMLInputElement)?.value || null;
+  }
+
+  onSaveSubCategoryClick(): void {
+    if (!this.generalFormGroup.valid) {
+      return;
+    }
+
+    this.subCategoriesService
+      .createSubCategory(this.generalFormGroup.value)
+      .subscribe();
   }
 }

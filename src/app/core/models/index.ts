@@ -14,3 +14,4 @@ export * from './catalog/sub-categories/sub-category.action.model';
 export * from './catalog/category-tags/category-tag.model';
 
 export * from './catalog/manufactures/manufacture.model';
+export * from './catalog/manufactures/manufacture.action.model';

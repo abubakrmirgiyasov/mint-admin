@@ -1,0 +1,1 @@
+export * from './forbidden-403.component';

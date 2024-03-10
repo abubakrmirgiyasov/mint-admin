@@ -1,0 +1,146 @@
+<tui-island class="island">
+  <div class="position-relative">
+    <app-search-bar (valueChange)="applySearch($event)" #search></app-search-bar>
+    
+    <button
+      tuiIconButton
+      appearance="custom"
+      icon="tuiIconSearchLarge"
+      shape="rounded"
+      type="button"
+      tuiHint="Поиск"
+      tuiHintDirection="top"
+      size="m"
+      class="search-open"
+      [class._opened]="search.isSearchShown$ | async"
+      (click)="search.open()"
+    ></button>
+
+    <button
+      tuiIconButton
+      appearance="custom"
+      icon="tuiIconRefreshCwLarge"
+      shape="rounded"
+      type="button"
+      tuiHint="Обновить"
+      tuiHintDirection="top"
+      size="m"
+      class="refresh"
+      [class._opened]="search.isSearchShown$ | async"
+      (click)="refresh()"
+    ></button>
+  </div>
+
+  <div
+    class="filter-toolbar"
+    [roles]="['admin']"
+    (showElem)="onShowButton($event)"
+  >
+    <button
+      tuiIconButton
+      appearance="custom"
+      icon="tuiIconSettings"
+      shape="rounded"
+      size="m"
+      class="settings"
+      tuiHint="Настройки"
+      tuiHintDirection="top"
+    ></button>
+    @if (isNewManufactureVisible) {
+      <a
+        tuiButton
+        appearance="custom"
+        size="m"
+        class="add-new"
+        routerLink="new"
+        icon="tuiIconPlus"
+      >
+        Добавить новый...
+      </a>
+    }
+  </div>
+
+  <tui-loader class="loader" [overlay]="true" [showLoader]="!!(loading$ | async)">
+    <tui-scrollbar>
+      @if (data$ | async; as data) {
+        <table tuiTable class="table table__rounded" [columns]="columns">
+          <thead>
+            <tr tuiThGroup>
+              <th tuiTh *tuiHead="'displayOrder'" [sticky]="false">Отобразить в порядке</th>
+              <th tuiTh *tuiHead="'name'" [sticky]="false" [sorter]="null">Название</th>
+              <th tuiTh *tuiHead="'fullAddress'" [sticky]="false" [sorter]="null">Полный адрес</th>
+              <th tuiTh *tuiHead="'website'" [sticky]="false" [sorter]="null">Веб-сайт</th>
+              <th tuiTh *tuiHead="'actions'" [sticky]="false" [sorter]="null"></th>
+            </tr>
+          </thead>
+          <tbody tuiTbody [data]="data">
+            @for (item of data; track item.displayOrder) {
+              <tr tuiTr>
+                <td tuiTd *tuiCell="'displayOrder'">{{ item.displayOrder }}</td>
+                <td tuiTd *tuiCell="'fullAddress'">{{ item.fullAddress }}</td>
+                <!-- <td tuiTd *tuiCell="'imagePath'" class="p-2">
+                  <div class="d-flex align-items-center justify-content-center">
+                    <tui-avatar
+                      size="m"
+                      [text]="item.name"
+                      [rounded]="true"
+                      [avatarUrl]="item.imagePath"
+                    ></tui-avatar>
+                  </div>
+                </td> -->
+                <td tuiTd *tuiCell="'website'">{{ item.website }}</td>
+                <td tuiTd *tuiCell="'contacts'">contacts</td>
+                <td tuiTd *tuiCell="'actions'">
+                  <tui-hosted-dropdown 
+                    tuiDropdownAlign="right"
+                    [content]="dropdown"
+                    #menuDropdown
+                  >
+                    <button
+                      tuiIconButton
+                      size="m"
+                      type="button"
+                      appearance="icon"
+                      icon="tuiIconMoreVertical"
+                      [pseudoActive]="menuDropdown.open || null"
+                    ></button>
+                  </tui-hosted-dropdown>
+                  <ng-template #dropdown let-close="close">
+                    <tui-data-list>
+                      <a 
+                        tuiOption 
+                        class="option-with-icon"
+                        [routerLink]="['update', item.id]" 
+                      >
+                        <tui-svg src="tuiIconEdit2"></tui-svg>
+                        Изменить
+                      </a>
+                      <button tuiOption class="option-with-icon">
+                        <tui-svg src="tuiIconTrash"></tui-svg>
+                        Удалить
+                      </button>
+                    </tui-data-list>
+                  </ng-template>
+                </td>
+              </tr>
+            } @empty {
+              <tr class="row_no-data">
+                <td [attr.colspan]="columns.length">Пустой список!</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </tui-scrollbar>
+  </tui-loader>
+
+  <div class="pagination">
+    <tui-table-pagination
+      [total]="(total$ | async) || 0"
+      [page]="0"
+      [size]="25"
+      [items]="[25, 50, 100]"
+      (paginationChange)="onPaginationChange($event)"
+    ></tui-table-pagination>
+  </div>
+</tui-island>

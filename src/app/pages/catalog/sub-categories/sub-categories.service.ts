@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { z } from 'zod';
 
-import { DefaultLinkModel, DefaultLinkModelSchema, SubCategoryModel } from '@core/models';
+import { DefaultLinkModel, DefaultLinkModelSchema, PaginatedResultModel, SubCategoriesActionModel, SubCategoryModel, SubCategoryModelSchema } from '@core/models';
 import { parseResponse } from '@shared/utils';
 
 @Injectable({
@@ -13,9 +13,13 @@ import { parseResponse } from '@shared/utils';
 export class SubCategoriesService {
   constructor(private readonly http: HttpClient) {}
 
-  getSubCategories(search: string): Observable<SubCategoryModel[]> {
-    return this.http.get<SubCategoryModel[]>('/api/subCategories/common', {
-      params: { search },
+  getSubCategories(search: string, pageIndex: number, pageSize: number): Observable<PaginatedResultModel<SubCategoryModel>> {
+    return this.http.get<PaginatedResultModel<SubCategoryModel>>('/api/subCategories', {
+      params: { 
+        search,
+        pageIndex,
+        pageSize, 
+      },
     });
   }
 
@@ -27,5 +31,9 @@ export class SubCategoriesService {
       .pipe(parseResponse(z.array(DefaultLinkModelSchema)));
   }
 
-  //   getSampleCategories()
+  createSubCategory<T>(subCategory: T): Observable<SubCategoryModel> {
+    return this.http
+      .post('/api/subCategories', subCategory)
+      .pipe(parseResponse(SubCategoryModelSchema));
+  }
 }
