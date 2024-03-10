@@ -3,12 +3,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, filter, map, Observable, share, startWith, Subject, switchMap } from 'rxjs';
 
+import { TuiAlertService } from '@taiga-ui/core';
 import { tuiIsFalsy, tuiIsPresent } from '@taiga-ui/cdk';
 
 import { DefaultLinkModel, CategoryActionModel } from '@core/models';
-import { customColors } from '@core/helpers/constants/layout.constants';
-import { CategoriesService } from '@pages/catalog/categories/categories.service';
-import { TuiAlertService } from '@taiga-ui/core';
+import { CUSTOM_COLORS } from '@core/helpers/constants';
+import { CategoriesService } from '@pages/catalog/categories';
 
 @Component({
   selector: 'app-new-category',
@@ -29,7 +29,7 @@ export class NewCategoryComponent {
   loading$: Observable<boolean>;
   data$: Observable<DefaultLinkModel[]>;
 
-  readonly items = customColors;
+  readonly items = CUSTOM_COLORS;
   readonly generalFormGroup: FormGroup<CategoryActionModel>;
 
   constructor(
@@ -68,10 +68,7 @@ export class NewCategoryComponent {
         nonNullable: false,
         validators: [Validators.maxLength(60), Validators.minLength(3)],
       }),
-      photo: new FormControl([], {
-        nonNullable: false,
-        validators: [Validators.maxLength(60), Validators.minLength(3)],
-      }),
+      photo: new FormControl([]),
       products: new FormControl([], {
         nonNullable: false,
         validators: [Validators.maxLength(60), Validators.minLength(3)],
@@ -108,7 +105,7 @@ export class NewCategoryComponent {
     this.photo = photo;
 
     const reader = new FileReader();
-    reader.onload = (e) => (this.imageURL = reader.result);
+    reader.onload = () => (this.imageURL = reader.result);
     reader.readAsDataURL(photo);
   }
 

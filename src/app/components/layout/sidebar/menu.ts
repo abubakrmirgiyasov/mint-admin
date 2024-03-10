@@ -49,8 +49,8 @@ export const MENU: MenuItem[] = [
       },
       {
         id: 8,
-        label: 'MENUITEMS.CATALOG.LIST.CHAT',
-        link: '/chat',
+        label: 'MENUITEMS.CATALOG.LIST.MANUFACTURES',
+        link: '/catalog/manufactures',
         parentId: 5
       },
       {

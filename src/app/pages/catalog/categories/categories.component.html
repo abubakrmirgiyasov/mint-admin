@@ -8,6 +8,8 @@
       icon="tuiIconSearchLarge" 
       shape="rounded" 
       type="button" 
+      tuiHint="Поиск" 
+      tuiHintDirection="top" 
       size="m"
       class="search-open" 
       [class._opened]="search.isSearchShown$ | async" 
@@ -19,6 +21,8 @@
       icon="tuiIconRefreshCwLarge" 
       shape="rounded" 
       type="button" 
+      tuiHint="Обновить"
+      tuiHintDirection="top" 
       appearance="custom" 
       size="m"
       class="refresh" 
@@ -41,7 +45,6 @@
       class="settings"
       tuiHint="Настройки" 
       tuiHintDirection="top" 
-      tuiHintDescribe
     ></button>
     
     @if (isNewCategoryVisible) {

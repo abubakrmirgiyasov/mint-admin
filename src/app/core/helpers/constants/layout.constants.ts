@@ -5,7 +5,7 @@ export enum DataLayoutSizes {
   lg = 'lg'
 }
 
-export const customColors: string[] = [
+export const CUSTOM_COLORS: string[] = [
   "Primary",
   "Secondary",
   "Success",

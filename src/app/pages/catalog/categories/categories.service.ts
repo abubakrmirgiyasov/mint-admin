@@ -35,6 +35,12 @@ export class CategoriesService {
     }).pipe(parseResponse(z.array(CategorySampleModelSchema)));
   }
 
+  getCommonCategoryById(categoryId: string): Observable<CategorySampleModel[]> {
+    return this.http.get(
+      `/api/categories/${categoryId}/common`
+    ).pipe(parseResponse(z.array(CategorySampleModelSchema)));
+  }
+
   createNewCategory(value: FormData): Observable<string> {
     return this.http.post<string>('/api/categories', value);
   }

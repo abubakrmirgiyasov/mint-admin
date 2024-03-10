@@ -12,14 +12,15 @@
   </ng-container>
 </section>
 
-<p class="buttons">
+<div class="buttons">
   <a
     tuiButton
     appearance="custom"
     type="button"
     class="tui-space_right-3 btn-success"
+    [class._hide]="!context.value.value"
     (click)="onClick(true)"
-    [disabled]="context.isValid"
+    [routerLink]="['/catalog/sub-categories', context.value.value?.value, 'new']"
   >
     {{ context.buttons[0] }}
   </a>
@@ -31,4 +32,4 @@
   >
     {{ context.buttons[1] }}
   </button>
-</p>
+</div>
