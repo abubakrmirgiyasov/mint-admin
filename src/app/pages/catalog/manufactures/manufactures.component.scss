@@ -65,3 +65,21 @@
     flex: 1 1 auto;
   }
 }
+
+.details-content {
+  padding: 0.1rem 0.5rem;
+}
+
+.g-3 {
+  gap: 1rem;
+}
+
+.img-details {
+  aspect-ratio: 3/2;
+  object-fit: contain;
+  mix-blend-mode: color-burn;
+}
+
+.dropdown {
+  width: 220px;
+}

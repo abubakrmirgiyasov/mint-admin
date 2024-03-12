@@ -1,0 +1,29 @@
+<div class="d-flex flex-column flex-column align-items-center">
+    <ng-lottie
+      width="500px"
+      height="300px"
+      containerClass="moving-box"
+      [options]="options"
+  ></ng-lottie>
+
+  <h3>Вы уверены что хотите удалить производителя?</h3>
+  <div class="tui-space_top-3" style="width: -webkit-fill-available">
+    <div  class="d-flex justify-content-end">
+      <button
+        tuiButton
+        appearance="secondary"
+        class="tui-space_right-3"
+        (click)="onCancel()"
+      >
+        Отмена
+      </button>
+      <button
+        tuiButton
+        appearance="accent"
+        (click)="onDelete()"
+      >
+        Удалить
+      </button>
+    </div>
+  </div>
+</div>

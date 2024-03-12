@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormArray, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { TuiContextWithImplicit, TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiCountryIsoCode } from '@taiga-ui/i18n';
@@ -9,32 +9,6 @@ import { TuiAlertService } from '@taiga-ui/core';
 import { ManufactureActionModel, ManufactureContactActionModel } from '@core/models';
 import { COUNTRIES, ContactDetailType } from '@core/helpers';
 import { ManufacturesService } from '@pages/catalog/manufactures';
-import { controlValue$ } from '@shared/utils';
-
-const VALIDATORS_BY_TYPE: Record<ContactDetailType, ValidatorFn[]> = {
-  [ContactDetailType.Phone]: [Validators.required, Validators.pattern(/^\+\d{8,14}$/)],
-  [ContactDetailType.Email]: [Validators.required, Validators.email]
-};
-
-function createContactDetailFormGroup(contactDetail?: ManufactureContactActionModel)
-: FormGroup<ManufactureContactActionModel> {
-  const formGroup = new FormGroup<ManufactureContactActionModel>({
-    contactInformation: new FormControl(contactDetail?.contactInformation ?? '', { 
-      nonNullable: true, 
-      validators: [Validators.required] 
-    }),
-    type: new FormControl(contactDetail?.type ?? ContactDetailType.Phone, { 
-      nonNullable: true, 
-      validators: [Validators.required, Validators.required] 
-    }),
-  });
-
-  controlValue$(formGroup.controls.type).subscribe((type) => {
-    formGroup.controls.contactInformation.setValidators(VALIDATORS_BY_TYPE[type]);
-  });
-  
-  return formGroup;
-}
 
 @Component({
   selector: 'app-new-manufacture',
@@ -44,6 +18,7 @@ function createContactDetailFormGroup(contactDetail?: ManufactureContactActionMo
 })
 export class NewManufactureComponent {
   activeIndex = 0;
+  countrySearchValue = null;
 
   photo: File | null = null;
   imageURL: string | ArrayBuffer | null = null;
@@ -63,7 +38,7 @@ export class NewManufactureComponent {
   readonly contactGroupForm: FormGroup<ManufactureContactActionModel>;
 
   constructor(
-    private readonly manufacturerService: ManufacturesService,
+    private readonly manufacturesService: ManufacturesService,
     private readonly alerts: TuiAlertService,
     private readonly router: Router
   ) {
@@ -71,7 +46,7 @@ export class NewManufactureComponent {
       displayOrder: new FormControl(0, { nonNullable: true, validators: [Validators.required] }),
       name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
       description: new FormControl('', { nonNullable: false, validators: [Validators.maxLength(800)] }),
-      country: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      country: new FormControl(null, { nonNullable: true, validators: [Validators.required] }),
       fullAddress: new FormControl('', { nonNullable: false, validators: [Validators.maxLength(100)] }),
       website: new FormControl(''),
       folder: new FormControl(''),
@@ -89,7 +64,7 @@ export class NewManufactureComponent {
   }
 
   protected createContactDetails(): void {
-    const formGroup = createContactDetailFormGroup();
+    const formGroup = this.manufacturesService.createContactDetailFormGroup();
     this.contactGroupFormArray.controls.push(formGroup);
   }
 
@@ -145,9 +120,9 @@ export class NewManufactureComponent {
       formData.append('folder', 'manufactures');
     }
 
-    this.manufacturerService
+    this.manufacturesService
       .createManufacture(formData)
-      .subscribe(() => { 
+      .subscribe((res) => { 
         this.alerts
           .open('Успешно создано!', { status: 'success' })
           .subscribe();
@@ -157,7 +132,12 @@ export class NewManufactureComponent {
       );
   }
 
-  protected readonly stringifyType: TuiStringHandler<TuiContextWithImplicit<ContactDetailType>> = ({ $implicit }) => {
+  protected readonly stringifyType
+    : TuiStringHandler<TuiContextWithImplicit<ContactDetailType>> = ({ $implicit }) => {
     return $implicit;
   };
+
+  protected readonly stringifyCountry = (country: string): string => {
+    return country;
+  }
 }

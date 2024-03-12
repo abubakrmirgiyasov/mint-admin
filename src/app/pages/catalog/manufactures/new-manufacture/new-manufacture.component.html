@@ -53,9 +53,9 @@
         [(activeItemIndex)]="activeIndex"
       >
         <button tuiTab>General</button>
-        <button tuiTab>Contact Information</button>
-        <button tuiTab>Search engines (SEO)</button>
-        <button tuiTab>Products</button>
+        <button tuiTab [disabled]="true">Contact Information</button>
+        <button tuiTab [disabled]="true">Search engines (SEO)</button>
+        <button tuiTab [disabled]="true">Products</button>
       </nav>
       <div class="tab-items">
         @if (activeIndex == 0) {
@@ -128,21 +128,28 @@
                       </label>
                     </div>
                     <div class="tui-col_8">
-                      <tui-select
+                      <tui-combo-box 
                         formControlName="country"
-                        [tuiTextfieldLabelOutside]="true"
+                        [stringify]="stringifyCountry"
+                        [(ngModel)]="countrySearchValue"
                       >
                         Страна
-                        <tui-data-list *tuiDataList>
-                          @for (country of countries; track $index) {
-                            <tui-opt-group>
-                              <button tuiOption [value]="country">
-                                {{ country }}
-                              </button>
-                            </tui-opt-group>
-                          }
-                        </tui-data-list>
-                      </tui-select>
+                        <input
+                          placeholder="Введите страну"
+                          tuiTextfield
+                        />
+                        <ng-container *tuiDataList>
+                          <tui-data-list>
+                            <button
+                              *ngFor="let item of countries | tuiFilterByInputWith: stringifyCountry"
+                              tuiOption
+                              [value]="item"
+                            >
+                              {{ stringifyCountry(item) }}
+                            </button>
+                          </tui-data-list>
+                        </ng-container>
+                      </tui-combo-box>
                     </div>
                   </div>
                 </div>
@@ -267,84 +274,6 @@
                 </div>
               </div>
             </form>
-          </div>
-        } @else if (activeIndex == 1) {
-          <div class="general-form">
-            @for (form of contactGroupFormArray.controls; track $index) {
-              <form
-                tuiTextFieldSize="m"
-                [formGroup]="contactGroupForm"
-              >
-                <div class="tui-row tui-row_sme">
-                  <div class="tui-col_12 tui-space_bottom-8">
-                    <div class="tui-row align-items-center">
-                      <div class="tui-col_4">
-                        <tui-select 
-                          formControlName="type" 
-                          [valueContent]="stringifyType" 
-                          [readOnly]="readOnly"
-                        >
-                          Вид контакта
-                          <tui-data-list *tuiDataList>
-                            <tui-opt-group>
-                              <button tuiOption [value]="'Phone'">Тел.</button>
-                              <button tuiOption [value]="'Email'">Email</button>
-                            </tui-opt-group>
-                          </tui-data-list>
-                        </tui-select>
-                      </div>
-                      <div class="tui-col_6">
-                        @switch (contactGroupForm.value.type) {
-                          @case ('Тел.') {
-                            <tui-input-phone-international 
-                              formControlName="contactInformation" 
-                              [readOnly]="readOnly"
-                              [countries]="countriesCodes"
-                            >
-                              Телефон
-                            </tui-input-phone-international>
-                          }
-                          @case ('Email') {
-                            <tui-input 
-                              formControlName="contactInformation" 
-                              [readOnly]="readOnly"
-                            >
-                              Адрес электронной почты
-                            </tui-input>
-                          }
-                        }
-                      </div>
-                      <div class="tui-col_2">
-                        @if (!readOnly) {
-                          @if(!readOnly) {
-                            <button 
-                              tuiButton 
-                              appearance="outline" 
-                              size="m" 
-                              icon="tuiIconDelete"
-                              (click)="contactGroupFormArray.removeAt($index)"
-                            ></button>
-                          }
-                        }
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            }
-            <div>
-              @if(!readOnly) {
-                <button 
-                  tuiButton
-                  appearance="outline" 
-                  size="m"
-                  icon="mat::add"
-                  (click)="createContactDetails()"
-                >
-                  Добавить новый контакт
-                </button>
-              }
-            </div>
           </div>
         }
       </div>

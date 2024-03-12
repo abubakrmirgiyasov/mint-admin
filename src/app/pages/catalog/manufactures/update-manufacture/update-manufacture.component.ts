@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormArray, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, map } from 'rxjs';
 
 import { TuiAlertService } from '@taiga-ui/core';
-import { controlValue$ } from '@shared/utils';
 import { TuiContextWithImplicit, TuiStringHandler, tuiIsFalsy } from '@taiga-ui/cdk';
 import { TuiCountryIsoCode } from '@taiga-ui/i18n';
 
@@ -12,39 +11,15 @@ import { ContactDetailType, COUNTRIES } from '@core/helpers';
 import { ManufactureActionModel, ManufactureContactActionModel, ManufactureModel } from '@core/models';
 import { ManufacturesService } from '@pages/catalog/manufactures';
 
-const VALIDATORS_BY_TYPE: Record<ContactDetailType, ValidatorFn[]> = {
-  [ContactDetailType.Phone]: [Validators.required, Validators.pattern(/^\+\d{8,14}$/)],
-  [ContactDetailType.Email]: [Validators.required, Validators.email]
-};
-
-function createContactDetailFormGroup(contactDetail?: ManufactureContactActionModel)
-: FormGroup<ManufactureContactActionModel> {
-  const formGroup = new FormGroup<ManufactureContactActionModel>({
-    contactInformation: new FormControl(contactDetail?.contactInformation ?? '', { 
-      nonNullable: true, 
-      validators: [Validators.required] 
-    }),
-    type: new FormControl(contactDetail?.type ?? ContactDetailType.Phone, { 
-      nonNullable: true, 
-      validators: [Validators.required, Validators.required] 
-    }),
-  });
-
-  controlValue$(formGroup.controls.type).subscribe((type) => {
-    formGroup.controls.contactInformation.setValidators(VALIDATORS_BY_TYPE[type]);
-  });
-  
-  return formGroup;
-}
-
 @Component({
   selector: 'app-update-manufacture',
   templateUrl: 'update-manufacture.component.html',
   styleUrl: 'update-manufacture.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpdateManufactureComponent implements OnInit {
+export class UpdateManufactureComponent {
   activeIndex = 0;
+  countrySearchValue = null;
 
   photo: File | null = null;
   imageURL: string | ArrayBuffer | null = null;
@@ -56,12 +31,14 @@ export class UpdateManufactureComponent implements OnInit {
     TuiCountryIsoCode.TJ,
   ];
 
+  readonly manufactureId: string | null;
+
   readonly countries = COUNTRIES;
 
   readonly data$: Observable<ManufactureModel>;
-  readonly loading$: Observable<boolean>;
-
+  
   data!: ManufactureModel;
+  loading: boolean = true;
 
   manufactureGeneralForm!: FormGroup<ManufactureActionModel>;
 
@@ -69,16 +46,22 @@ export class UpdateManufactureComponent implements OnInit {
   contactGroupForm!: FormGroup<ManufactureContactActionModel>;
 
   constructor(
-    private readonly manufacturerService: ManufacturesService,
+    private readonly manufacturesService: ManufacturesService,
     private readonly alerts: TuiAlertService,
     private readonly router: ActivatedRoute,
     private readonly route: Router
   ) {
-    const manufactureId = this.router.snapshot.paramMap.get('manufactureId');
+    this.manufactureId = this.router.snapshot.paramMap.get('manufactureId');
 
-    if (manufactureId === null) {
+    if (this.manufactureId === null) {
       this.route.navigate(['/catalog/manufactures']);
     }
+    
+    this.data$ = this.manufacturesService.getManufactureById(this.manufactureId!);
+
+    this.data$.subscribe(() => {
+      this.loading = false;
+    });
 
     this.manufactureGeneralForm = new FormGroup<ManufactureActionModel>({
       displayOrder: new FormControl(0, { nonNullable: true, validators: [Validators.required] }),
@@ -96,12 +79,6 @@ export class UpdateManufactureComponent implements OnInit {
       type: new FormControl(ContactDetailType.Phone, { nonNullable: true, validators: [Validators.required, Validators.required] }),
     });
 
-    this.data$ = this.manufacturerService.getManufactureById(manufactureId!);
-
-    this.loading$ = this.data$.pipe(map(tuiIsFalsy));
-  }
-
-  ngOnInit(): void {
     this.data$.subscribe((result) => {
       this.manufactureGeneralForm.get('displayOrder')?.setValue(result.displayOrder);
       this.manufactureGeneralForm.get('name')?.setValue(result.name);
@@ -117,7 +94,7 @@ export class UpdateManufactureComponent implements OnInit {
   }
 
   protected createContactDetails(): void {
-    const formGroup = createContactDetailFormGroup();
+    const formGroup = this.manufacturesService.createContactDetailFormGroup();
     this.contactGroupFormArray.controls.push(formGroup);
   }
 
@@ -138,10 +115,74 @@ export class UpdateManufactureComponent implements OnInit {
   }
 
   protected onSaveManufacture(): void {
-    if (!this.manufactureGeneralForm.valid) {
-      return;
-    }
+    switch(this.activeIndex) {
+      case 0: 
+        if (!this.manufactureGeneralForm.valid) {
+          this.alerts
+            .open('Заполните поля корректно!', { status: 'error' })
+            .subscribe();
 
+          return;
+        }
+
+        const formData = this.saveManufacture();
+
+        this.manufacturesService
+          .updateManufacture(this.manufactureId!, formData)
+          .subscribe(() => { 
+            this.alerts
+              .open('Успешно обновлено!', { status: 'success' })
+              .subscribe();
+    
+              this.route.navigate(['/catalog/manufactures']);
+            }
+          );
+        break;
+      case 1:
+        if (!this.contactGroupForm.valid) {
+          this.alerts
+            .open('Заполните поля корректно!', { status: 'error' })
+            .subscribe();
+
+          return;
+        }
+
+        this.saveManufactureContacts();
+        break;
+      default:
+        
+        break;
+    }
+  }
+
+  protected onSaveManufactureAndContinue(): void {
+
+  }
+
+  private saveManufactureContacts(): void {
+console.log(this.contactGroupFormArray.value);
+    const formData = new FormData();
+
+    for (let i = 0; i < this.contactGroupFormArray.value.length; i++) {
+      const item = this.contactGroupFormArray.value[i];
+  
+      formData.append(`contacts[${i}].type`, item.type ?? "");
+      formData.append(`contacts[${i}].contactInformation`, item.contactInformation ?? "");
+    }
+    
+    this.manufacturesService
+      .updateManufactureContact(this.manufactureId!, formData)
+      .subscribe(() => { 
+        this.alerts
+          .open('Успешно обновлено!', { status: 'success' })
+          .subscribe();
+
+          this.route.navigate(['/catalog/manufactures']);
+        }
+      );
+  }
+
+  private saveManufacture(): FormData {
     const formData = new FormData();
 
     if (this.manufactureGeneralForm.value.name) {
@@ -173,19 +214,15 @@ export class UpdateManufactureComponent implements OnInit {
       formData.append('folder', 'manufactures');
     }
 
-    this.manufacturerService
-      .createManufacture(formData)
-      .subscribe(() => { 
-        this.alerts
-          .open('Успешно обновлено!', { status: 'success' })
-          .subscribe();
-
-          this.route.navigate(['/catalog/manufactures']);
-        }
-      );
+    return formData;
   }
 
-  protected readonly stringifyType: TuiStringHandler<TuiContextWithImplicit<ContactDetailType>> = ({ $implicit }) => {
+  protected readonly stringifyType
+    : TuiStringHandler<TuiContextWithImplicit<ContactDetailType>> = ({ $implicit }) => {
     return $implicit;
   };
+
+  protected readonly stringifyCountry = (country: string): string => {
+    return country;
+  }
 }

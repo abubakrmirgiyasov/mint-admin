@@ -36,16 +36,36 @@
     [roles]="['admin']"
     (showElem)="onShowButton($event)"
   >
-    <button
-      tuiIconButton
-      appearance="custom"
-      icon="tuiIconSettings"
-      shape="rounded"
-      size="m"
-      class="settings"
-      tuiHint="Настройки"
-      tuiHintDirection="top"
-    ></button>
+    <tui-hosted-dropdown
+      tuiDropdownAlign="right"
+      [content]="dropdownContent"
+      [sided]="true"
+      [(open)]="isSettingOpen"
+    >
+      <button
+        tuiIconButton
+        appearance="custom"
+        icon="tuiIconSettings"
+        shape="rounded"
+        size="m"
+        class="settings"
+        tuiHint="Настройки"
+        tuiHintDirection="top"
+        [pseudoActive]="isSettingOpen || null"
+      ></button>
+    </tui-hosted-dropdown>
+    
+    <ng-template #dropdownContent>
+      <div class="dropdown">
+        <tui-reorder
+          class="list"
+          [enabled]="(enabledColumns$ | async) ?? []"
+          [items]="(columnsItems$ | async) ?? []"
+          (itemsChange)="columnsItemsChange($event)"
+          (enabledChange)="enabledColumnsChange($event)"
+        ></tui-reorder>
+      </div>
+    </ng-template>
     @if (isNewManufactureVisible) {
       <a
         tuiButton
@@ -63,11 +83,12 @@
   <tui-loader class="loader" [overlay]="true" [showLoader]="!!(loading$ | async)">
     <tui-scrollbar>
       @if (data$ | async; as data) {
-        <table tuiTable class="table table__rounded" [columns]="columns">
+        <table tuiTable *tuiLet="columns$ | async as columns" class="table table__rounded" [columns]="columns ?? []">
           <thead>
             <tr tuiThGroup>
               <th tuiTh *tuiHead="'displayOrder'" [sticky]="false">Отобразить в порядке</th>
               <th tuiTh *tuiHead="'name'" [sticky]="false" [sorter]="null">Название</th>
+              <th tuiTh *tuiHead="'country'" [sticky]="false" [sorter]="null">Страна</th>
               <th tuiTh *tuiHead="'fullAddress'" [sticky]="false" [sorter]="null">Полный адрес</th>
               <th tuiTh *tuiHead="'website'" [sticky]="false" [sorter]="null">Веб-сайт</th>
               <th tuiTh *tuiHead="'actions'" [sticky]="false" [sorter]="null"></th>
@@ -76,20 +97,12 @@
           <tbody tuiTbody [data]="data">
             @for (item of data; track item.displayOrder) {
               <tr tuiTr>
-                <td tuiTd *tuiCell="'displayOrder'">{{ item.displayOrder }}</td>
-                <td tuiTd *tuiCell="'fullAddress'">{{ item.fullAddress }}</td>
-                <!-- <td tuiTd *tuiCell="'imagePath'" class="p-2">
-                  <div class="d-flex align-items-center justify-content-center">
-                    <tui-avatar
-                      size="m"
-                      [text]="item.name"
-                      [rounded]="true"
-                      [avatarUrl]="item.imagePath"
-                    ></tui-avatar>
-                  </div>
-                </td> -->
-                <td tuiTd *tuiCell="'website'">{{ item.website }}</td>
-                <td tuiTd *tuiCell="'contacts'">contacts</td>
+                <td tuiTd *tuiCell="'displayOrder'" (click)="expanded.toggle(item)">{{ item.displayOrder }}</td>
+                <td tuiTd *tuiCell="'name'" (click)="expanded.toggle(item)">{{ item.name }}</td>
+                <td tuiTd *tuiCell="'country'" (click)="expanded.toggle(item)">{{ item.country }}</td>
+                <td tuiTd *tuiCell="'fullAddress'" (click)="expanded.toggle(item)">{{ item.fullAddress }}</td>
+                <td tuiTd *tuiCell="'website'" (click)="expanded.toggle(item)">{{ item.website }}</td>
+                <td tuiTd *tuiCell="'contacts'" (click)="expanded.toggle(item)">contacts</td>
                 <td tuiTd *tuiCell="'actions'">
                   <tui-hosted-dropdown 
                     tuiDropdownAlign="right"
@@ -115,7 +128,7 @@
                         <tui-svg src="tuiIconEdit2"></tui-svg>
                         Изменить
                       </a>
-                      <button tuiOption class="option-with-icon">
+                      <button tuiOption class="option-with-icon" (click)="showDialog(item.id)">
                         <tui-svg src="tuiIconTrash"></tui-svg>
                         Удалить
                       </button>
@@ -123,9 +136,33 @@
                   </ng-template>
                 </td>
               </tr>
+              <tr class="details-row">
+                <td class="details-content" [attr.colspan]="columns?.length">
+                  @if (expanded.isSelected(item)) {
+                    <div class="details-content g-2" [@tuiHeightCollapse]="getAnimation(150)">
+                      <div class="details-row d-flex g-3 align-items-center">
+                        <span>Изоброжение:</span>
+                        <div class="detail-row-img">
+                          <img
+                            [alt]="item.name"
+                            [src]="item.imagePath"
+                            width="70"
+                            height="70"
+                            class="img-details"
+                          />
+                        </div>
+                      </div>                      
+                      <div class="details-row d-flex g-3 align-items-center">
+                        <span>Описание:</span>
+                        <h4>{{ item.description }}</h4>
+                      </div>
+                    </div>
+                  }
+                </td>
+              </tr>
             } @empty {
               <tr class="row_no-data">
-                <td [attr.colspan]="columns.length">Пустой список!</td>
+                <td [attr.colspan]="columns?.length">Пустой список!</td>
               </tr>
             }
           </tbody>
