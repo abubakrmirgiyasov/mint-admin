@@ -3,3 +3,4 @@ export * from './layout.helper';
 export * from './tui-validator.function';
 
 export * from './constants';
+export * from './validators';

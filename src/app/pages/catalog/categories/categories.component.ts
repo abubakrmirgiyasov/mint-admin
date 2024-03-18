@@ -32,7 +32,7 @@ export class CategoriesComponent {
   protected isNewCategoryVisible = false;
   isActionsClickOpened = false;
 
-  expanded = new SelectionModel<CategoryModel>();
+  readonly expanded = new SelectionModel<CategoryModel>();
 
   readonly request$: Observable<PaginatedResultModel<CategoryModel> | null>;
   readonly loading$: Observable<boolean>;

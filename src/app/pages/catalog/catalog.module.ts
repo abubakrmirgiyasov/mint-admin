@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ReactiveFormsModule } from "@angular/forms";
 
-import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiReorderModule, TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from "@taiga-ui/cdk";
 import {
   TuiButtonModule,
@@ -16,7 +16,7 @@ import {
 import {
   TuiAvatarModule,
   TuiComboBoxModule,
-  TuiDataListWrapperModule, TuiInputFilesModule,
+  TuiDataListWrapperModule, TuiFilterByInputPipeModule, TuiInputFilesModule,
   TuiInputModule, TuiInputNumberModule,
   TuiInputPhoneInternationalModule,
   TuiIslandModule, TuiPaginationModule,
@@ -29,20 +29,27 @@ import { HighlighterDirectiveModule, PermittedRoleDirectiveModule } from "@share
 import { CatalogRoutingModule } from "@pages/catalog/catalog-routing.module";
 import { NewCategoryComponent, CategoriesComponent } from "@pages/catalog/categories";
 import { NewSubCategoryComponent, SubCategoriesComponent } from "@pages/catalog/sub-categories";
-import { ManufacturesComponent, NewManufactureComponent, UpdateManufactureComponent } from "@pages/catalog/manufactures";
+import { DeleteManufactureComponent, ManufacturesComponent, NewManufactureComponent, UpdateManufactureComponent } from "@pages/catalog/manufactures";
+import { LottieComponent } from "ngx-lottie";
 
 @NgModule({
   declarations: [
     CategoriesComponent,
     NewCategoryComponent,
+
     SubCategoriesComponent,
     NewSubCategoryComponent,
+    
     ManufacturesComponent,
     NewManufactureComponent,
     UpdateManufactureComponent,
+    DeleteManufactureComponent,
   ],
   imports: [
     CommonModule,
+
+    // Lottie
+    LottieComponent,
 
     CatalogRoutingModule,
     SearchBarModule,
@@ -75,6 +82,8 @@ import { ManufacturesComponent, NewManufactureComponent, UpdateManufactureCompon
     TuiAvatarModule,
     TuiHostedDropdownModule,
     TuiSvgModule,
+    TuiReorderModule,
+    TuiFilterByInputPipeModule,
     // HighlighterDirectiveModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

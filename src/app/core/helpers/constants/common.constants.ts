@@ -1,4 +1,4 @@
 export enum ContactDetailType {
     Email = 'Email',
-    Phone = 'Тел.'
+    Phone = 'Phone'
 }

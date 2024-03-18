@@ -13,14 +13,15 @@
         [tuiTextfieldCleaner]="true"
         class="tui-space_top-4"
       >
-        <tui-notification
-          (close)="onErrorNotificationClose()"
-          *ngIf="!!error"
-          class="tui-space_vertical-4"
-          status="error"
-        >
-          {{ error }}
-        </tui-notification>
+        @if (!!error) {
+          <tui-notification
+            (close)="onErrorNotificationClose()"
+            class="tui-space_vertical-4"
+            status="error"
+          >
+            {{ error }}
+          </tui-notification>
+        }
         <div class="tui-form__row tui-form__row_multi-fields">
           <tui-select
             (ngModelChange)="onTypeChanged($event)"
