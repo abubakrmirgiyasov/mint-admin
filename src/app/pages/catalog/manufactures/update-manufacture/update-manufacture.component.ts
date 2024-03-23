@@ -18,32 +18,32 @@ import { ManufacturesService } from '@pages/catalog/manufactures';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateManufactureComponent {
-  activeIndex = 0;
-  countrySearchValue = null;
+  protected activeIndex = 0;
+  protected countrySearchValue = null;
 
-  photo: File | null = null;
-  imageURL: string | ArrayBuffer | null = null;
-  uploadProgress = 0;
-  isImageLoading = false;
+  protected photo: File | null = null;
+  protected imageURL: string | ArrayBuffer | null = null;
+  protected uploadProgress = 0;
+  protected isImageLoading = false;
 
-  readonly countriesCodes: ReadonlyArray<TuiCountryIsoCode> = [
+  protected readonly countriesCodes: ReadonlyArray<TuiCountryIsoCode> = [
     TuiCountryIsoCode.RU,
     TuiCountryIsoCode.TJ,
   ];
 
-  readonly manufactureId: string | null;
+  protected readonly manufactureId: string | null;
 
-  readonly countries = COUNTRIES;
+  protected readonly countries = COUNTRIES;
 
-  readonly data$: Observable<ManufactureModel>;
+  protected readonly data$: Observable<ManufactureModel>;
   
-  data!: ManufactureModel;
-  loading: boolean = true;
+  protected data!: ManufactureModel;
+  protected loading!: boolean;
 
-  manufactureGeneralForm!: FormGroup<ManufactureActionModel>;
+  protected manufactureGeneralForm!: FormGroup<ManufactureActionModel>;
 
-  contactGroupFormArray!: FormArray<FormGroup<ManufactureContactActionModel>>;
-  contactGroupForm!: FormGroup<ManufactureContactActionModel>;
+  protected contactGroupFormArray!: FormArray<FormGroup<ManufactureContactActionModel>>;
+  protected contactGroupForm!: FormGroup<ManufactureContactActionModel>;
 
   constructor(
     private readonly manufacturesService: ManufacturesService,
@@ -58,10 +58,6 @@ export class UpdateManufactureComponent {
     }
     
     this.data$ = this.manufacturesService.getManufactureById(this.manufactureId!);
-
-    this.data$.subscribe(() => {
-      this.loading = false;
-    });
 
     this.manufactureGeneralForm = new FormGroup<ManufactureActionModel>({
       displayOrder: new FormControl(0, { nonNullable: true, validators: [Validators.required] }),
@@ -80,6 +76,8 @@ export class UpdateManufactureComponent {
     });
 
     this.data$.subscribe((result) => {
+      this.loading = false;
+
       this.manufactureGeneralForm.get('displayOrder')?.setValue(result.displayOrder);
       this.manufactureGeneralForm.get('name')?.setValue(result.name);
       this.manufactureGeneralForm.get('description')?.setValue(result.description);

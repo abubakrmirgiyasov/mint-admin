@@ -7,7 +7,7 @@ import { TuiAlertService } from '@taiga-ui/core';
 import { tuiIsFalsy, tuiIsPresent } from '@taiga-ui/cdk';
 
 import { DefaultLinkModel, CategoryActionModel } from '@core/models';
-import { CUSTOM_COLORS } from '@core/helpers/constants';
+import { CUSTOM_COLORS, ICONS } from '@core/helpers';
 import { CategoriesService } from '@pages/catalog/categories';
 
 @Component({
@@ -17,20 +17,22 @@ import { CategoriesService } from '@pages/catalog/categories';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewCategoryComponent {
-  activeIndex = 0;
-  photo: File | null = null;
-  imageURL: string | ArrayBuffer | null = null;
+  protected readonly icons = Object.entries(ICONS);
 
-  saveLoader = false;
+  protected activeIndex = 0;
+  protected photo: File | null = null;
+  protected imageURL: string | ArrayBuffer | null = null;
 
-  refresh$ = new Subject<void>();
-  search$ = new BehaviorSubject<string>('');
-  request$: Observable<DefaultLinkModel[] | []>;
-  loading$: Observable<boolean>;
-  data$: Observable<DefaultLinkModel[]>;
+  protected saveLoader = false;
 
-  readonly items = CUSTOM_COLORS;
-  readonly generalFormGroup: FormGroup<CategoryActionModel>;
+  protected readonly refresh$ = new Subject<void>();
+  protected readonly search$ = new BehaviorSubject<string>('');
+  protected readonly request$: Observable<DefaultLinkModel[] | []>;
+  protected readonly loading$: Observable<boolean>;
+  protected readonly data$: Observable<DefaultLinkModel[]>;
+
+  protected readonly items = CUSTOM_COLORS;
+  protected readonly generalFormGroup: FormGroup<CategoryActionModel>;
 
   constructor(
     private readonly categoriesService: CategoriesService, 
@@ -130,6 +132,7 @@ export class NewCategoryComponent {
       return;
     }
 
+    this.saveLoader = true;
     const formData = new FormData();
 
     if (this.generalFormGroup.value.name) formData.append('name', this.generalFormGroup.value.name);
@@ -163,6 +166,10 @@ export class NewCategoryComponent {
     this.categoriesService.createNewCategory(formData)
       .subscribe(() => {
         this.alerts.open('Успешно Создано!', { status: 'success' }).subscribe();
+        
+        this.saveLoader = false;
+
+        this.router.navigate(['/catalog/categories']);
       });
   }
 }

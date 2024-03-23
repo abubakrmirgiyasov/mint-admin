@@ -23,6 +23,10 @@ export class CategoriesService {
     });
   }
 
+  getCategoryById(id: string): Observable<CategoryModel> {
+    return this.http.get<CategoryModel>(`/api/categories/${id}`);
+  }
+
   getDefaultLinks(search: any): Observable<DefaultLinkModel[]> {
     return this.http.get('/api/categories/links', {
       params: { search: search },

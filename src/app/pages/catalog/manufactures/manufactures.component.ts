@@ -44,15 +44,15 @@ export class ManufacturesComponent {
   protected isSettingOpen = false;
   protected isNewManufactureVisible = false;
 
-  readonly expanded = new SelectionModel<ManufactureModel>();
+  protected readonly expanded = new SelectionModel<ManufactureModel>();
 
-  readonly request$: Observable<PaginatedResultModel<ManufactureModel> | null>;
-  readonly loading$: Observable<boolean>;
-  readonly total$: Observable<number>;
-  readonly data$: Observable<ManufactureModel[]>;
+  protected readonly request$: Observable<PaginatedResultModel<ManufactureModel> | null>;
+  protected readonly loading$: Observable<boolean>;
+  protected readonly total$: Observable<number>;
+  protected readonly data$: Observable<ManufactureModel[]>;
 
-  readonly search$ = new BehaviorSubject<string>('');
-  readonly pagination$ = new BehaviorSubject<TuiTablePagination>({ page: 0, size: 25 });
+  protected readonly search$ = new BehaviorSubject<string>('');
+  protected readonly pagination$ = new BehaviorSubject<TuiTablePagination>({ page: 0, size: 25 });
 
   private readonly refresh$ = new Subject<void>();
 

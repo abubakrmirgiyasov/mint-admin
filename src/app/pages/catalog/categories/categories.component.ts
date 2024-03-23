@@ -1,14 +1,31 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
 import { BehaviorSubject, combineLatest, filter, map, Observable, share, startWith, Subject, switchMap } from "rxjs";
 import { SelectionModel } from '@angular/cdk/collections';
 
-import { TuiDurationOptions, tuiHeightCollapse } from "@taiga-ui/core";
+import { TuiDialogService, TuiDurationOptions, tuiHeightCollapse } from "@taiga-ui/core";
 import { tuiIsFalsy, tuiIsPresent, tuiPure } from "@taiga-ui/cdk";
 import { TuiTablePagination } from "@taiga-ui/addon-table";
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 
 import { CategoryModel, PaginatedResultModel } from "@core/models";
-import { CategoriesService } from "@pages/catalog/categories";
+import { CategoriesService, DeleteCategoryComponent, DeleteCategoryComponentData } from "@pages/catalog/categories";
 import { combineReload } from "@shared/utils/rxjs";
+
+type SortDirection = -1 | 1;
+
+type ColumnKey = 
+  | 'displayOrder'
+  | 'name'
+  | 'badgeText'
+  | 'defaultLink'
+  ;
+
+const COLUMN_KEYS: Record<string, ColumnKey> = {
+  'Отобразить в порядке': 'displayOrder',
+  'Название': "name",
+  'Значок': 'badgeText',
+  'Путь': 'defaultLink'
+};
 
 @Component({
   selector: 'app-categories',
@@ -18,33 +35,37 @@ import { combineReload } from "@shared/utils/rxjs";
   animations: [tuiHeightCollapse],
 })
 export class CategoriesComponent {
-  readonly columns = [
-    'displayOrder',
-    'photo',
-    'name',
-    'ico',
-    'badgeText',
-    'defaultLink',
-    'subCategories',
-    'actions',
-  ];
-
   protected isNewCategoryVisible = false;
-  isActionsClickOpened = false;
+  protected isActionsClickOpened = false;
+  protected isSettingsOpen = false;
 
-  readonly expanded = new SelectionModel<CategoryModel>();
+  protected readonly expanded = new SelectionModel<CategoryModel>();
 
-  readonly request$: Observable<PaginatedResultModel<CategoryModel> | null>;
-  readonly loading$: Observable<boolean>;
-  readonly total$: Observable<number>;
-  readonly data$: Observable<CategoryModel[]>;
+  protected readonly request$: Observable<PaginatedResultModel<CategoryModel> | null>;
+  protected readonly loading$: Observable<boolean>;
+  protected readonly total$: Observable<number>;
+  protected readonly data$: Observable<CategoryModel[]>;
 
-  readonly search$ = new BehaviorSubject<string>('');
-  readonly pagination$ = new BehaviorSubject({ page: 0, size: 25 });
+  protected readonly search$ = new BehaviorSubject<string>('');
+  protected readonly pagination$ = new BehaviorSubject({ page: 0, size: 25 });
 
   private readonly refresh$ = new Subject<void>();
 
+  protected columnsItems$ = new BehaviorSubject<readonly string[]>(Object.keys(COLUMN_KEYS));
+  protected enabledColumns$ = new BehaviorSubject<readonly string[]>(Object.keys(COLUMN_KEYS));
+
+  protected readonly columns$ = combineLatest([this.columnsItems$, this.enabledColumns$]).pipe(
+    map(([columnsItems, enabledColumns]) => {
+      const columns = columnsItems
+        .filter((column) => enabledColumns.includes(column))
+        .map((column) => COLUMN_KEYS[column]);
+
+      return [...columns, 'actions'];
+    })
+  );
+
   constructor(
+    @Inject(TuiDialogService) private readonly dialogs: TuiDialogService,
     private readonly categoriesService: CategoriesService
   ) {
     this.request$ = combineReload(
@@ -86,8 +107,7 @@ export class CategoriesComponent {
   }
 
   onPaginationChange(pagination: any): void {
-    console.log("test");
-    // this.pagination$.next(pagination);
+    this.pagination$.next(pagination);
   }
 
   onShowButton(value: boolean): void {
@@ -106,6 +126,28 @@ export class CategoriesComponent {
 
   onActiveZone(active: any): void {
     this.isActionsClickOpened = active && this.isActionsClickOpened;
+  }
+
+  showDialog(categoryId: string): void {
+    const content = new PolymorpheusComponent(DeleteCategoryComponent);
+    const data: DeleteCategoryComponentData = {
+      categoryId: categoryId,
+    };
+
+    this.dialogs
+      .open(content, {
+        data,
+        label: 'Удаление котегории'
+      })
+      .subscribe();
+  }
+
+  columnsItemsChange(columns: string[]): void {
+    this.columnsItems$.next(columns);
+  }
+
+  enabledColumnsChange(columns: string[]): void {
+    this.enabledColumns$.next(columns);
   }
 
   @tuiPure

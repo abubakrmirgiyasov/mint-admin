@@ -1,10 +1,10 @@
 <tui-island>
   <tui-loader
-    class="loader"
     size="m"
+    class="loader"
     textContent="Loading..."
     [overlay]="true"
-    [showLoader]="!!(loading$ | async)"
+    [showLoader]="false"
     [inheritColor]="true"
   >
     <div class="tui-island__title d-flex justify-content-between">
@@ -27,17 +27,18 @@
           size="m"
           class="btn-success ms-2"
           [showLoader]="saveLoader"
-          [disabled]="!generalFormGroup.valid"
+          [disabled]="true"
           (click)="onSave()"
         >
-          Сохранить
+            Сохранить
         </button>
         <button
           tuiButton
           appearance="custom"
           size="m"
           class="btn-secondary"
-          [disabled]="!generalFormGroup.valid"
+          [showLoader]="saveLoader"
+          [disabled]="true"
           (click)="onSaveAndContinue()"
         >
           Сохранить и редактировать
@@ -48,17 +49,17 @@
     <section class="content">
       <nav
         tuiTabs
-        [(activeItemIndex)]="activeIndex"
-        vertical="left"
         class="left"
+        vertical="left"
+        [(activeItemIndex)]="activeIndex"
       >
-        <button tuiTab [disabled]="true">General</button>
-        <button tuiTab [disabled]="true">Children</button>
-        <button tuiTab [disabled]="true">Search engines (SEO)</button>
-        <button tuiTab [disabled]="true">Products</button>
+        <button tuiTab>General</button>
+        <button tuiTab>Children</button>
+        <button tuiTab>Search Engines (SEO)</button>
+        <button tuiTab>Products</button>
       </nav>
       <div class="tab-items">
-        @if (activeIndex === 0) {
+        @if (activeIndex == 0) {
           <div class="general-form">
             <form [formGroup]="generalFormGroup">
               <div class="tui-row tui-row_sme">
@@ -115,24 +116,24 @@
                           direction="top"
                         ></tui-tooltip>
                       </label>
+                      </div>
+                      <div class="tui-col_8">
+                        <tui-input-number
+                          formControlName="displayOrder"
+                          decimal="never"
+                          class="b-form"
+                          [max]="100"
+                          [min]="0"
+                          [step]="1"
+                        >
+                          Отобразить в порядке
+                          <input
+                            id="displayOrder"
+                            tuiTextfield
+                          />
+                        </tui-input-number>
+                      </div>
                     </div>
-                    <div class="tui-col_8">
-                      <tui-input-number
-                        formControlName="displayOrder"
-                        decimal="never"
-                        class="b-form"
-                        [max]="100"
-                        [min]="0"
-                        [step]="1"
-                      >
-                        Отобразить в порядке
-                        <input
-                          id="displayOrder"
-                          tuiTextfield
-                        />
-                      </tui-input-number>
-                    </div>
-                  </div>
                 </div>
                 <div class="tui-col_12 tui-space_bottom-8">
                   <div class="tui-row align-items-center">
@@ -176,20 +177,17 @@
                         formControlName="defaultLink"
                         [strict]="false"
                         [valueContent]="content"
-                        [stringify]="stringifyPlacement"
-                        (searchChange)="onDefaultLinkSearch($event)"
                       >
                         Ссылка по умолчанию
                         <input
                           tuiTextfield
                           id="defaultLink"
                           placeholder="Введите ссылку"
-                          (input)="onDefaultLinkSearch(extractValueFromEvent($event))"
                         />
                         <tui-data-list-wrapper
                           *tuiDataList
                           [itemContent]="content"
-                          [items]="data$ | async"
+                          [items]="[]"
                         ></tui-data-list-wrapper>
                         <ng-template #content let-data>
                           {{ data.defaultLink }}
@@ -237,7 +235,6 @@
                     </div>
                     <div class="tui-col_8">
                       <tui-combo-box
-                        *tuiLet="items"
                         [valueContent]="value"
                         formControlName="badgeStyle"
                       >
@@ -254,16 +251,19 @@
                           <span class="badge-{{ item.toLowerCase() }}">{{ item }}</span>
                         </ng-template>
                         <ng-template tuiDataList>
-                          <tui-data-list *ngIf="items">
-                            <button
-                              tuiOption
-                              class="d-flex align-items-center justify-content-between"
-                              *ngFor="let item of items"
-                              [value]="item"
-                            >
-                              <span class="badge-{{ item.toLowerCase() }}">{{ item }}</span>
-                            </button>
-                          </tui-data-list>
+                          @if (true) {
+                            <tui-data-list>
+                                @for (item of items; track $index) {
+                                  <button
+                                    tuiOption
+                                    class="d-flex align-items-center justify-content-between"
+                                    [value]="item"
+                                  >
+                                    <span class="badge-{{ item }}">{{ item }}</span>
+                                  </button>
+                                }
+                              </tui-data-list>
+                          }
                         </ng-template>
                       </tui-combo-box>
                     </div>
@@ -300,15 +300,16 @@
                         </ng-template>
                         <ng-template tuiDataList>
                           <tui-data-list>
-                            <button
-                              tuiOption
-                              class="d-flex align-items-center justify-content-between"
-                              *ngFor="let item of icons"
-                              [value]="item[0]"
-                            >
-                              <tui-svg [src]="item[0]"></tui-svg>
-                              {{ item[1] }}
-                            </button>
+                            @for (item of items; track $index) {
+                              <button
+                                tuiOption
+                                class="d-flex align-items-center justify-content-between"
+                                [value]="item[0]"
+                              >
+                                <tui-svg [src]="item[0]"></tui-svg>
+                                {{ item[1] }}
+                              </button>
+                            }
                           </tui-data-list>
                         </ng-template>
                       </tui-combo-box>
@@ -353,26 +354,23 @@
                         accept="image/*"
                         formControlName="photo"
                         [multiple]="false"
-                        (ngModelChange)="onCategoryPhotoChange($event)"
-                        (reject)="onCategoryPhotoReject($event)"
                       ></tui-input-files>
-                      @if (!!photo) {
+                      @if (false) {
                         <div class="photos d-flex align-items-center gap-lg-3">
                           <div class="photo">
                             <img
                               class="photo-det"
-                              [src]="imageURL"
+                              [src]="''"
                               [height]="65"
                             />
                           </div>
                           <div class="photo-info d-flex align-items-center">
-                            <h4 class="mb-0">{{ photo.name }}</h4>
+                            <h4 class="mb-0">{{ 'photo.name' }}</h4>
                             <button
                               tuiButton
                               icon="tuiIconX"
                               size="xs"
                               appearance="flat"
-                              (click)="onCategoryPhotoRemoved()"
                             ></button>
                           </div>
                         </div>

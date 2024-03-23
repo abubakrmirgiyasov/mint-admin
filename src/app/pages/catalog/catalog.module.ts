@@ -27,7 +27,7 @@ import {
 import { SearchBarModule } from "@shared/kit";
 import { HighlighterDirectiveModule, PermittedRoleDirectiveModule } from "@shared/cdk";
 import { CatalogRoutingModule } from "@pages/catalog/catalog-routing.module";
-import { NewCategoryComponent, CategoriesComponent } from "@pages/catalog/categories";
+import { NewCategoryComponent, UpdateCategoryComponent, DeleteCategoryComponent, CategoriesComponent } from "@pages/catalog/categories";
 import { NewSubCategoryComponent, SubCategoriesComponent } from "@pages/catalog/sub-categories";
 import { DeleteManufactureComponent, ManufacturesComponent, NewManufactureComponent, UpdateManufactureComponent } from "@pages/catalog/manufactures";
 import { LottieComponent } from "ngx-lottie";
@@ -36,6 +36,7 @@ import { LottieComponent } from "ngx-lottie";
   declarations: [
     CategoriesComponent,
     NewCategoryComponent,
+    UpdateCategoryComponent,
 
     SubCategoriesComponent,
     NewSubCategoryComponent,
